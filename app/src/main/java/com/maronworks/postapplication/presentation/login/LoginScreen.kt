@@ -1,5 +1,6 @@
 package com.maronworks.postapplication.presentation.login
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -31,6 +32,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
@@ -41,6 +43,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.maronworks.postapplication.R
+import com.maronworks.postapplication.data.DBHandler
 import com.maronworks.postapplication.presentation.Screens
 
 @Composable
@@ -99,6 +102,9 @@ private fun Login(navController: NavHostController) {
     var username by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
 
+    val context = LocalContext.current
+    val db = DBHandler(context)
+
     Card(
         modifier = Modifier
             .padding(5.dp),
@@ -170,7 +176,27 @@ private fun Login(navController: NavHostController) {
             )
 
             Spacer(modifier = Modifier.height(15.dp))
-            Button(onClick = { navController.navigate(Screens.Main.route) }) {
+            Button(
+                onClick = {
+                    try {
+                        if (db.isUserExist(username, password)) {
+                            Log.d(
+                                "login",
+                                "Login success! value: ${db.isUserExist(username, password)}"
+                            )
+                            navController.navigate(Screens.Main.route)
+                        } else {
+                            Log.d(
+                                "login",
+                                "Login success! value: ${db.isUserExist(username, password)}"
+                            )
+                            Log.d("login", "Login Failed! User does not exists!")
+                        }
+                    } catch (e: Exception) {
+                        Log.d("login", "Error: ${e.message}")
+                    }
+                }
+            ) {
                 Text(
                     text = " LOGIN ",
                     fontFamily = FontFamily.Monospace,
@@ -187,6 +213,9 @@ private fun Register(onClick: () -> Unit) {
     var username by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
 
+    val context = LocalContext.current
+    val db = DBHandler(context)
+
     Card(
         modifier = Modifier
             .padding(5.dp),
@@ -258,7 +287,18 @@ private fun Register(onClick: () -> Unit) {
             )
 
             Spacer(modifier = Modifier.height(15.dp))
-            Button(onClick = onClick) {
+            Button(
+                onClick = {
+                    // saving data to db
+                    try {
+                        db.addNewUser(username, password)
+                        Log.d("register", "Registration success! Values: $username, $password")
+                        onClick()
+                    } catch (e: Exception) {
+                        Log.d("register", "Error: ${e.message}")
+                    }
+                }
+            ) {
                 Text(
                     text = "REGISTER",
                     fontFamily = FontFamily.Monospace,

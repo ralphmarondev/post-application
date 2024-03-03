@@ -1,0 +1,6 @@
+2024-03-03      8:51PM
+When the user clicked Register on Login
+    - create another table with the name of user
+        [ex. ralph_table -> values (user_created, label(content), date_posted]
+
+

@@ -13,3 +13,6 @@ class MainActivity : ComponentActivity() {
         }
     }
 }
+//git remote add origin https://github.com/ralphmarondev/database-template.git
+//git branch -M main
+//git push -u origin main
