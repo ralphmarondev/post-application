@@ -2,7 +2,9 @@ package com.maronworks.postapplication.presentation.home
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
@@ -62,7 +64,7 @@ fun HomeScreen(
             LazyColumn(
                 modifier = Modifier
                     .fillMaxSize()
-//                    .padding(start = 5.dp, end = 5.dp)
+                    .padding(start = 5.dp, end = 5.dp)
             ) {
                 items(postModelItems.size) { index ->
                     PostCard(
@@ -70,6 +72,10 @@ fun HomeScreen(
                         label = postModelItems[index].label,
                         datePosted = postModelItems[index].datePosted
                     )
+                }
+                // padding on the bottom
+                item{
+                    Spacer(modifier = Modifier.height(100.dp))
                 }
             }
         }

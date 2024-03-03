@@ -14,7 +14,12 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AccountBox
+import androidx.compose.material.icons.filled.Email
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.Share
 import androidx.compose.material.icons.outlined.AccountBox
+import androidx.compose.material.icons.outlined.Favorite
 import androidx.compose.material.icons.outlined.FavoriteBorder
 import androidx.compose.material.icons.outlined.MailOutline
 import androidx.compose.material.icons.outlined.MoreVert
@@ -53,12 +58,40 @@ fun PostCard(
     label: String,
     datePosted: String
 ) {
-    // TODO: Change the icons to their appropriate icons 
+    var clickedEmail by rememberSaveable {
+        mutableStateOf(false)
+    }
+    var clickedFavorite by rememberSaveable {
+        mutableStateOf(false)
+    }
+    var clickedRepost by rememberSaveable {
+        mutableStateOf(false)
+    }
+    var clickedShare by rememberSaveable {
+        mutableStateOf(false)
+    }
+    // TODO: Change the icons to their appropriate icons
     val icons = listOf(
-        Icons.Outlined.MailOutline,
-        Icons.Outlined.FavoriteBorder,
-        Icons.Outlined.AccountBox,
-        Icons.Outlined.Share
+        ReactionModel(
+            selectedIcon = Icons.Filled.Email,
+            defaultIcon = Icons.Outlined.MailOutline,
+            onClick = { clickedEmail = !clickedEmail }
+        ),
+        ReactionModel(
+            selectedIcon = Icons.Filled.Favorite,
+            defaultIcon = Icons.Outlined.FavoriteBorder,
+            onClick = { clickedFavorite = !clickedFavorite }
+        ),
+        ReactionModel(
+            selectedIcon = Icons.Filled.AccountBox,
+            defaultIcon = Icons.Outlined.AccountBox,
+            onClick = { clickedRepost = !clickedRepost }
+        ),
+        ReactionModel(
+            selectedIcon = Icons.Filled.Share,
+            defaultIcon = Icons.Outlined.Share,
+            onClick = { clickedShare = !clickedShare }
+        ),
     )
     var expanded by rememberSaveable { mutableStateOf(false) }
 
@@ -74,8 +107,8 @@ fun PostCard(
             // profile and name row
             Row(
                 modifier = Modifier
-                    .fillMaxWidth(),
-//                    .padding(5.dp),
+                    .fillMaxWidth()
+                    .padding(start = 5.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Image(
@@ -112,8 +145,8 @@ fun PostCard(
             Text(
                 text = label,
                 modifier = Modifier
-                    .padding(5.dp)
-                    .clickable { expanded = !expanded },
+                    .clickable { expanded = !expanded }
+                    .padding(5.dp),
                 fontFamily = FontFamily.Monospace,
                 fontSize = 16.sp,
                 fontWeight = FontWeight.W500,
@@ -139,18 +172,35 @@ fun PostCard(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                repeat(icons.size) { index ->
-                    ReactionIconButton(icon = icons[index]) {
-
-                    }
-                }
+                ReactionIconButton(
+                    icon = if(clickedEmail) icons[0].selectedIcon else icons[0].defaultIcon,
+                    onClick = {clickedEmail = !clickedEmail}
+                )
+                ReactionIconButton(
+                    icon = if(clickedFavorite) icons[1].selectedIcon else icons[1].defaultIcon,
+                    onClick = {clickedFavorite = !clickedFavorite}
+                )
+                ReactionIconButton(
+                    icon = if(clickedRepost) icons[2].selectedIcon else icons[2].defaultIcon,
+                    onClick = {clickedRepost = !clickedRepost}
+                )
+                ReactionIconButton(
+                    icon = if(clickedShare) icons[3].selectedIcon else icons[3].defaultIcon,
+                    onClick = {clickedShare = !clickedShare}
+                )
             }
         }
     }
 }
 
+private data class ReactionModel(
+    val selectedIcon: ImageVector,
+    val defaultIcon: ImageVector,
+    val onClick: () -> Unit
+)
+
 @Composable
-fun ReactionIconButton(
+private fun ReactionIconButton(
     icon: ImageVector,
     onClick: () -> Unit
 ) {

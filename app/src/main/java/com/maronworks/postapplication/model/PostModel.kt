@@ -17,5 +17,15 @@ val postModelItems = listOf(
         userCreated = "hello world",
         label = "Hello there, always be happy ok!",
         datePosted = "2024-03-03 at 10:43AM"
+    ),
+    PostModel(
+        userCreated = "cazmir",
+        label = "Why so cute!",
+        datePosted = "2024-03-03 at 11:23AM"
+    ),
+    PostModel(
+        userCreated = "android",
+        label = "This is my new version, Iguana version! Isn't it amazing? I have a gradient on my upper left lol.",
+        datePosted = "2024-03-03 at 10:24AM"
     )
 )
