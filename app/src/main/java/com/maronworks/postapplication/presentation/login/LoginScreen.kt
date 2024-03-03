@@ -293,6 +293,9 @@ private fun Register(onClick: () -> Unit) {
                     try {
                         db.addNewUser(username, password)
                         Log.d("register", "Registration success! Values: $username, $password")
+
+                        // create new table specific for this user
+                        db.createTable(username)
                         onClick()
                     } catch (e: Exception) {
                         Log.d("register", "Error: ${e.message}")

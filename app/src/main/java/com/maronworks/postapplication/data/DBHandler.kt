@@ -40,13 +40,32 @@ class DBHandler(context: Context) : SQLiteOpenHelper(context, DB_NAME, null, DB_
         // create new table [ex: username + '_table']
     }
 
-    fun isUserExist(username: String, password: String):Boolean{
+    fun isUserExist(username: String, password: String): Boolean {
         val db = this.readableDatabase
-        val cursor = db.rawQuery("SELECT * FROM $USERS_TABLE WHERE $USERNAME_COL = ? AND $PASSWORD_COL = ?", arrayOf(username, password))
+        val cursor = db.rawQuery(
+            "SELECT * FROM $USERS_TABLE WHERE $USERNAME_COL = ? AND $PASSWORD_COL = ?",
+            arrayOf(username, password)
+        )
         val exists = cursor.count > 0
 
         cursor.close()
         return exists
         // if exists is greater than 0, return true [go home] else stay
+    }
+
+    // table for post
+    fun createTable(username: String) {
+        val db = this.writableDatabase
+
+        db.execSQL("CREATE TABLE ${username}_table (id INTEGER PRIMARY KEY AUTOINCREMENT, $USER_CREATED_COL TEXT NOT NULL, $LABEL_COL TEXT NOT NULL, $DATE_ADDED_COL TEXT NOT NULL)")
+        db.close()
+    }
+
+    fun savePost(
+        userCreated: String,
+        label: String,
+        datePosted: String
+    ) {
+
     }
 }
