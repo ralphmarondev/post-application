@@ -12,6 +12,7 @@ import androidx.compose.material.icons.outlined.ExitToApp
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -43,16 +44,19 @@ fun HomeScreen(
                     Text(text = "Post Application", fontFamily = FontFamily.Monospace)
                 },
                 actions = {
-                    IconButton(onClick = { navController.popBackStack() }) {
+                    IconButton(
+                        onClick = { navController.popBackStack() }
+                    ) {
                         Icon(
                             imageVector = Icons.Outlined.ExitToApp,
-                            contentDescription = "",
-                            tint = Color.Red
+                            contentDescription = ""
                         )
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
-                    MaterialTheme.colorScheme.primaryContainer
+                    MaterialTheme.colorScheme.primary,
+                    titleContentColor = MaterialTheme.colorScheme.onPrimary,
+                    actionIconContentColor = Color.Red
                 )
             )
         }
@@ -74,7 +78,7 @@ fun HomeScreen(
                     )
                 }
                 // padding on the bottom
-                item{
+                item {
                     Spacer(modifier = Modifier.height(100.dp))
                 }
             }

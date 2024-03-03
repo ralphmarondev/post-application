@@ -65,7 +65,7 @@ fun MainScreen(
         Box {
             when (selectedIndex) {
                 0 -> HomeScreen(navController = navController)
-                1 -> AddScreen()
+                1 -> AddScreen(onPostClick = {selectedIndex = 0}) // back to home
                 2 -> ProfileScreen()
 
             }
