@@ -18,7 +18,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontFamily
@@ -34,6 +36,7 @@ fun MainScreen(
     navController: NavHostController
 ) {
     var selectedIndex by remember { mutableIntStateOf(0) }
+    val currentUser by rememberSaveable { mutableStateOf("cute_girl") }
 
     Scaffold(
         bottomBar = {
@@ -66,7 +69,7 @@ fun MainScreen(
             when (selectedIndex) {
                 0 -> HomeScreen(navController = navController)
                 1 -> AddScreen(onPostClick = {selectedIndex = 0}) // back to home
-                2 -> ProfileScreen()
+                2 -> ProfileScreen(currentUser)
 
             }
         }
