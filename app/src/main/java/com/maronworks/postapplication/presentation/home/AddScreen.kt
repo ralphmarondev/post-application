@@ -69,7 +69,7 @@ fun AddScreen(
                         onClick = {
                             try {
                                 db.savePost(
-                                    userCreated = "ralphmaron",//readFromFile().toString(),
+                                    userCreated = db.readCurrentUser(),// "ralphmaron",//readFromFile().toString(),
                                     label = newPost,
                                     datePosted = getCurrentDateTime()
                                 )

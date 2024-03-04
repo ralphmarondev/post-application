@@ -187,23 +187,6 @@ private fun Login(navController: NavHostController) {
                                 "Login success! value: ${db.isUserExist(username, password)}"
                             )
                             db.setCurrentUser(username)
-                            /*
-                            // save the current user to a file
-                            if (writeToFile(username)) {
-                                Log.d("write-to-file", "Written to file successfully!")
-                            } else {
-                                if (createFileInAppDirectory(context)) {
-                                    Log.d("create-file", "File created successfully")
-                                } else {
-                                    Log.d("create-file", "File creation failed!")
-                                }
-                                if (writeToFile(username)) {
-                                    Log.d("write-to-file2", "Success")
-                                } else {
-                                    Log.d("write-to-file2", "Failed!")
-                                }
-                            }*/
-
                             navController.navigate(Screens.Main.route)
                         } else {
                             Log.d(
