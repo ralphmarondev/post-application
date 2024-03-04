@@ -1,14 +1,16 @@
 package com.maronworks.postapplication.data
 
+import android.annotation.SuppressLint
 import android.content.ContentValues
 import android.content.Context
+import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 
 class DBHandler(context: Context) : SQLiteOpenHelper(context, DB_NAME, null, DB_VERSION) {
     companion object {
         const val DB_NAME = "app_db"
-        const val DB_VERSION = 2
+        const val DB_VERSION = 3
         const val USERS_TABLE = "users_table"
         const val USERNAME_COL = "username_col"
         const val PASSWORD_COL = "password_col"
@@ -18,21 +20,30 @@ class DBHandler(context: Context) : SQLiteOpenHelper(context, DB_NAME, null, DB_
         const val DATE_ADDED_COL = "date_added_col"
         const val LABEL_COL = "label_col" // post content
 
+        const val CURRENT_USER = "current_user_table"
+
         // creating tables
         const val CREATE_USERS_TABLE =
             "CREATE TABLE $USERS_TABLE ($USERNAME_COL TEXT NOT NULL, $PASSWORD_COL TEXT NOT NULL)"
         const val CREATE_POSTS_TABLE =
             "CREATE TABLE $POSTS_TABLE (id INTEGER PRIMARY KEY AUTOINCREMENT, $USER_CREATED_COL TEXT NOT NULL, $LABEL_COL TEXT NOT NULL, $DATE_ADDED_COL TEXT NOT NULL)"
+
+        // for saving current user
+        const val CREATE_CURRENT_USER_TABLE =
+            "CREATE TABLE $CURRENT_USER ($USERNAME_COL TEXT NOT NULL)"
+
     }
 
     override fun onCreate(db: SQLiteDatabase?) {
         db?.execSQL(CREATE_USERS_TABLE)
         db?.execSQL(CREATE_POSTS_TABLE)
+        db?.execSQL(CREATE_CURRENT_USER_TABLE)
     }
 
     override fun onUpgrade(db: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {
         db?.execSQL("DROP TABLE IF EXISTS $USERS_TABLE")
         db?.execSQL("DROP TABLE IF EXISTS $POSTS_TABLE")
+        db?.execSQL("DROP TABLE IF EXISTS $CURRENT_USER")
 
         onCreate(db)
     }
@@ -89,5 +100,32 @@ class DBHandler(context: Context) : SQLiteOpenHelper(context, DB_NAME, null, DB_
 
     fun readPosts() {
         // TODO: Implement this 
+    }
+
+    fun setCurrentUser(currentUser: String) {
+        val db = this.writableDatabase
+        val values = ContentValues()
+
+        values.put(USERNAME_COL, currentUser)
+
+        db.insert(CURRENT_USER, null, values)
+        db.close()
+    }
+
+    @SuppressLint("Recycle")
+    fun readCurrentUser(): String {
+        val items: ArrayList<String> = ArrayList()
+        val db = this.readableDatabase
+        val cursor = db.rawQuery("SELECT * FROM $CURRENT_USER", null)
+
+        if(cursor.moveToFirst()){
+            do{
+                items.add(
+                    cursor.getString(0)
+                )
+            }while(cursor.moveToNext())
+        }
+        cursor.close()
+        return items[items.size - 1]
     }
 }

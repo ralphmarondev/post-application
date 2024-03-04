@@ -186,6 +186,7 @@ private fun Login(navController: NavHostController) {
                                 "login",
                                 "Login success! value: ${db.isUserExist(username, password)}"
                             )
+                            db.setCurrentUser(username)
                             /*
                             // save the current user to a file
                             if (writeToFile(username)) {

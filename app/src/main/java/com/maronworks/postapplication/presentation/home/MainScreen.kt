@@ -1,6 +1,7 @@
 package com.maronworks.postapplication.presentation.home
 
 import android.annotation.SuppressLint
+import android.util.Log
 import androidx.compose.foundation.layout.Box
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
@@ -23,12 +24,14 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import com.maronworks.postapplication.data.DBHandler
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
@@ -36,7 +39,17 @@ fun MainScreen(
     navController: NavHostController
 ) {
     var selectedIndex by remember { mutableIntStateOf(0) }
-    val currentUser by rememberSaveable { mutableStateOf("cute_girl") }
+    var currentUser by rememberSaveable { mutableStateOf("cute_girl") }
+
+    val context = LocalContext.current
+    val db = DBHandler(context)
+
+    try {
+        currentUser = db.readCurrentUser()
+        Log.d("reading current user", "Success! Value: $currentUser")
+    } catch (e: Exception) {
+        Log.d("reading current user", "Error: ${e.message}")
+    }
 
     Scaffold(
         bottomBar = {
@@ -55,8 +68,8 @@ fun MainScreen(
                             Text(
                                 text = item.label,
                                 fontFamily = FontFamily.Monospace,
-                                fontWeight = if(selectedIndex == index) FontWeight.W600 else FontWeight.W500,
-                                fontSize = if(selectedIndex == index) 14.sp else 12.sp,
+                                fontWeight = if (selectedIndex == index) FontWeight.W600 else FontWeight.W500,
+                                fontSize = if (selectedIndex == index) 14.sp else 12.sp,
                                 color = if (selectedIndex == index) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.secondary
                             )
                         }
@@ -68,7 +81,7 @@ fun MainScreen(
         Box {
             when (selectedIndex) {
                 0 -> HomeScreen(navController = navController)
-                1 -> AddScreen(onPostClick = {selectedIndex = 0}) // back to home
+                1 -> AddScreen(onPostClick = { selectedIndex = 0 }) // back to home
                 2 -> ProfileScreen(currentUser)
 
             }
