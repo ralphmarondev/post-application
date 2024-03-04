@@ -45,6 +45,8 @@ import androidx.navigation.compose.rememberNavController
 import com.maronworks.postapplication.R
 import com.maronworks.postapplication.data.DBHandler
 import com.maronworks.postapplication.presentation.Screens
+import com.maronworks.postapplication.utils.createFileInAppDirectory
+import com.maronworks.postapplication.utils.writeToFile
 
 @Composable
 fun LoginScreen(
@@ -184,6 +186,23 @@ private fun Login(navController: NavHostController) {
                                 "login",
                                 "Login success! value: ${db.isUserExist(username, password)}"
                             )
+                            /*
+                            // save the current user to a file
+                            if (writeToFile(username)) {
+                                Log.d("write-to-file", "Written to file successfully!")
+                            } else {
+                                if (createFileInAppDirectory(context)) {
+                                    Log.d("create-file", "File created successfully")
+                                } else {
+                                    Log.d("create-file", "File creation failed!")
+                                }
+                                if (writeToFile(username)) {
+                                    Log.d("write-to-file2", "Success")
+                                } else {
+                                    Log.d("write-to-file2", "Failed!")
+                                }
+                            }*/
+
                             navController.navigate(Screens.Main.route)
                         } else {
                             Log.d(
@@ -295,7 +314,7 @@ private fun Register(onClick: () -> Unit) {
                         Log.d("register", "Registration success! Values: $username, $password")
 
                         // create new table specific for this user
-                        db.createTable(username)
+                        // db.createTable(username)
                         onClick()
                     } catch (e: Exception) {
                         Log.d("register", "Error: ${e.message}")

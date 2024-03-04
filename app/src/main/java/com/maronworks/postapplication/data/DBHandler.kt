@@ -8,24 +8,33 @@ import android.database.sqlite.SQLiteOpenHelper
 class DBHandler(context: Context) : SQLiteOpenHelper(context, DB_NAME, null, DB_VERSION) {
     companion object {
         const val DB_NAME = "app_db"
-        const val DB_VERSION = 1
+        const val DB_VERSION = 2
         const val USERS_TABLE = "users_table"
         const val USERNAME_COL = "username_col"
         const val PASSWORD_COL = "password_col"
 
+        const val POSTS_TABLE = "posts_table"
         const val USER_CREATED_COL = "user_created_col"
         const val DATE_ADDED_COL = "date_added_col"
         const val LABEL_COL = "label_col" // post content
+
+        // creating tables
+        const val CREATE_USERS_TABLE =
+            "CREATE TABLE $USERS_TABLE ($USERNAME_COL TEXT NOT NULL, $PASSWORD_COL TEXT NOT NULL)"
+        const val CREATE_POSTS_TABLE =
+            "CREATE TABLE $POSTS_TABLE (id INTEGER PRIMARY KEY AUTOINCREMENT, $USER_CREATED_COL TEXT NOT NULL, $LABEL_COL TEXT NOT NULL, $DATE_ADDED_COL TEXT NOT NULL)"
     }
 
     override fun onCreate(db: SQLiteDatabase?) {
-        val query = "CREATE TABLE $USERS_TABLE ($USERNAME_COL TEXT, $PASSWORD_COL TEXT)"
-
-        db?.execSQL(query)
+        db?.execSQL(CREATE_USERS_TABLE)
+        db?.execSQL(CREATE_POSTS_TABLE)
     }
 
     override fun onUpgrade(db: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {
         db?.execSQL("DROP TABLE IF EXISTS $USERS_TABLE")
+        db?.execSQL("DROP TABLE IF EXISTS $POSTS_TABLE")
+
+        onCreate(db)
     }
 
     fun addNewUser(username: String, password: String) {
@@ -66,6 +75,19 @@ class DBHandler(context: Context) : SQLiteOpenHelper(context, DB_NAME, null, DB_
         label: String,
         datePosted: String
     ) {
+        val db = this.writableDatabase
+        val values = ContentValues()
+        //val table = userCreated + "_table"
 
+        values.put(USER_CREATED_COL, userCreated)
+        values.put(LABEL_COL, label)
+        values.put(DATE_ADDED_COL, datePosted)
+
+        db.insert(POSTS_TABLE, null, values)
+        db.close()
+    }
+
+    fun readPosts() {
+        // TODO: Implement this 
     }
 }

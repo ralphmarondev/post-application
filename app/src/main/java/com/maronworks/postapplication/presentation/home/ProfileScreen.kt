@@ -45,6 +45,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.maronworks.postapplication.R
+import com.maronworks.postapplication.utils.readFromFile
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -106,7 +107,7 @@ fun ProfileScreen(
                     color = MaterialTheme.colorScheme.primary
                 )
                 Text(
-                    text = "@$currentUser",
+                    text = "@$currentUser", //"@${readFromFile()}",
                     fontFamily = FontFamily.Monospace,
                     fontWeight = FontWeight.W500,
                     fontSize = 14.sp,

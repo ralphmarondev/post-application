@@ -27,12 +27,16 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.maronworks.postapplication.data.DBHandler
+import com.maronworks.postapplication.utils.getCurrentDateTime
+import com.maronworks.postapplication.utils.readFromFile
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -42,6 +46,9 @@ fun AddScreen(
     var newPost by rememberSaveable {
         mutableStateOf("")
     }
+
+    val context = LocalContext.current
+    val db = DBHandler(context)
 
     Scaffold(
         topBar = {
@@ -60,9 +67,17 @@ fun AddScreen(
                 actions = {
                     TextButton(
                         onClick = {
-                            // save_to_db()
-                            Log.d("post", "Content: $newPost")
-                            onPostClick()
+                            try {
+                                db.savePost(
+                                    userCreated = "ralphmaron",//readFromFile().toString(),
+                                    label = newPost,
+                                    datePosted = getCurrentDateTime()
+                                )
+                                Log.d("post", "Content: $newPost")
+                                onPostClick()
+                            } catch (e: Exception) {
+                                Log.d("insert post", "Error: ${e.message}")
+                            }
                         }
                     ) {
                         Text(
