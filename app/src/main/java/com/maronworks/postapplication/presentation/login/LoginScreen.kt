@@ -145,7 +145,8 @@ private fun Login(navController: NavHostController) {
                         fontWeight = FontWeight.W500,
                         color = MaterialTheme.colorScheme.onSecondaryContainer
                     )
-                }
+                },
+                singleLine = true
             )
 
             OutlinedTextField(
@@ -175,7 +176,8 @@ private fun Login(navController: NavHostController) {
                         fontWeight = FontWeight.W500,
                         color = MaterialTheme.colorScheme.onSecondaryContainer
                     )
-                }
+                },
+                singleLine = true
             )
 
             Spacer(modifier = Modifier.height(15.dp))
@@ -268,7 +270,8 @@ private fun Register(onClick: () -> Unit) {
                         fontWeight = FontWeight.W500,
                         color = MaterialTheme.colorScheme.onSecondaryContainer
                     )
-                }
+                },
+                singleLine = true
             )
 
             OutlinedTextField(
@@ -298,7 +301,8 @@ private fun Register(onClick: () -> Unit) {
                         fontWeight = FontWeight.W500,
                         color = MaterialTheme.colorScheme.onSecondaryContainer
                     )
-                }
+                },
+                singleLine = true
             )
 
             Spacer(modifier = Modifier.height(15.dp))

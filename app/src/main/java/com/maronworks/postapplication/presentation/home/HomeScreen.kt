@@ -84,17 +84,13 @@ fun HomeScreen(
             ) {
                 items(itemsList.size) { index ->
                     PostCard(
-                        userCreated = itemsList[index].userCreated,
-                        label = itemsList[index].label,
-                        datePosted = itemsList[index].datePosted
+                        item = itemsList[index]
                     )
                 }
                 // TODO: Add option to delete this default posts.
                 items(postModelItems.size) { index ->
                     PostCard(
-                        userCreated = postModelItems[index].userCreated,
-                        label = postModelItems[index].label,
-                        datePosted = postModelItems[index].datePosted
+                        item = postModelItems[index]
                     )
                 }
                 // padding on the bottom

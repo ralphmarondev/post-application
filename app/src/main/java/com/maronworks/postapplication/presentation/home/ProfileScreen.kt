@@ -1,6 +1,7 @@
 package com.maronworks.postapplication.presentation.home
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.defaultMinSize
@@ -8,6 +9,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
@@ -17,6 +19,8 @@ import androidx.compose.material.icons.outlined.CheckCircle
 import androidx.compose.material.icons.outlined.Menu
 import androidx.compose.material.icons.outlined.Warning
 import androidx.compose.material3.Divider
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -30,6 +34,8 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -45,11 +51,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.maronworks.postapplication.R
+import com.maronworks.postapplication.model.PostModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ProfileScreen(
-    currentUser: String
+    currentUser: String,
+   // postItems: MutableList<PostModel>?
 ) {
     var selectedIndex by rememberSaveable {
         mutableIntStateOf(0)
@@ -131,6 +139,9 @@ fun ProfileScreen(
                 }
                 when (selectedIndex) {
                     0 -> {
+//                        if (postItems != null) {
+//                            PostsTab(postItems = postItems)
+//                        }
                         Box(
                             modifier = Modifier
                                 .fillMaxSize()
@@ -138,7 +149,7 @@ fun ProfileScreen(
                             contentAlignment = Alignment.Center
                         ) {
                             Text(
-                                text = "Developed by: Ralph Maron Eda",
+                                text = "Hello there!",
                                 fontFamily = FontFamily.Monospace,
                                 fontWeight = FontWeight.W600,
                                 fontSize = 16.sp,
@@ -152,24 +163,7 @@ fun ProfileScreen(
                     }
 
                     1 -> {
-                        Box(
-                            modifier = Modifier
-                                .fillMaxSize()
-                                .defaultMinSize(minHeight = 200.dp),
-                            contentAlignment = Alignment.Center
-                        ) {
-                            Text(
-                                text = "He is a Computer Engineering Student",
-                                fontFamily = FontFamily.Monospace,
-                                fontWeight = FontWeight.W600,
-                                fontSize = 16.sp,
-                                color = MaterialTheme.colorScheme.secondary,
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(10.dp),
-                                textAlign = TextAlign.Center
-                            )
-                        }
+                        SecondTab()
                     }
 
                     2 -> {
@@ -180,7 +174,7 @@ fun ProfileScreen(
                             contentAlignment = Alignment.Center
                         ) {
                             Text(
-                                text = "Likes Mobile Development, so as Web [REACT] and Game Development [GODOT]",
+                                text = "Coming Soon...",
                                 fontFamily = FontFamily.Monospace,
                                 fontWeight = FontWeight.W600,
                                 fontSize = 16.sp,
@@ -192,6 +186,76 @@ fun ProfileScreen(
                             )
                         }
                     }
+                }
+            }
+        }
+    }
+}
+
+@Composable
+fun PostsTab(postItems: MutableList<PostModel>) {
+    LazyColumn {
+        items(postItems.size) { index ->
+//            PostCard(
+//                userCreated = postItems[index].userCreated,
+//                label = postItems[index].label,
+//                datePosted = postItems[index].datePosted
+//            )
+        }
+    }
+}
+
+@Composable
+private fun SecondTab() {
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .fillMaxSize()
+            .defaultMinSize(minHeight = 200.dp),
+        contentAlignment = Alignment.Center
+    ) {
+        val options = listOf(
+            "Developed by: Ralph Maron Eda",
+            "He is a Computer Engineering Student",
+            "Likes Mobile Development, so as Web [REACT] and Game Development [GODOT]"
+        )
+        var expanded by remember { mutableStateOf(false) }
+        var selectedOptionText by remember { mutableStateOf(options[0]) }
+
+        Column {
+            Text(
+                text = "Selected:\n$selectedOptionText",
+                fontFamily = FontFamily.Monospace,
+                fontWeight = FontWeight.W600,
+                fontSize = 16.sp,
+                color = MaterialTheme.colorScheme.secondary,
+                textAlign = TextAlign.Center,
+                modifier = Modifier
+                    .clickable {
+                        expanded = true
+                    }
+            )
+            DropdownMenu(
+                expanded = expanded,
+                onDismissRequest = { expanded = false }
+            ) {
+                options.forEach { selectedOption ->
+                    DropdownMenuItem(
+                        text = {
+                            Text(
+                                text = selectedOption,
+                                fontFamily = FontFamily.Monospace,
+                                fontWeight = FontWeight.W600,
+                                fontSize = 16.sp,
+                                color = MaterialTheme.colorScheme.secondary,
+                                textAlign = TextAlign.Center
+                            )
+                        },
+                        onClick = {
+                            selectedOptionText = selectedOption
+                            expanded = false
+                        }
+                    )
                 }
             }
         }
@@ -221,5 +285,28 @@ private val tabRowItem = listOf(
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
 private fun ProfileScreenPrev() {
-    ProfileScreen(currentUser = "cute_girl")
+    val items = mutableListOf(
+        PostModel(
+            userCreated = "ralphmaron",
+            label = "Ralph Maron Eda is a computer engineering student who is passionate about learning" +
+                    "different languages and technologies.",
+            datePosted = "2024-03-02 at 2:04AM"
+        ),
+        PostModel(
+            userCreated = "hello world",
+            label = "Hello there, always be happy ok!",
+            datePosted = "2024-03-03 at 10:43AM"
+        ),
+        PostModel(
+            userCreated = "cazmir",
+            label = "Why so cute!",
+            datePosted = "2024-03-03 at 11:23AM"
+        ),
+        PostModel(
+            userCreated = "android",
+            label = "This is my new version, Iguana version! Isn't it amazing? I have a gradient on my upper left lol.",
+            datePosted = "2024-03-03 at 10:24AM"
+        )
+    )
+//    ProfileScreen(currentUser = "cute_girl", postItems = items)
 }

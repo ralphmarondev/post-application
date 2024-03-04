@@ -99,7 +99,10 @@ fun MainScreen(
                 }
 
                 1 -> AddScreen(onPostClick = { selectedIndex = 0 }) // back to home
-                2 -> ProfileScreen(currentUser)
+                2 -> ProfileScreen(
+                    currentUser = currentUser,
+                    //postItems = itemsList
+                )
 
             }
         }

@@ -1,18 +1,23 @@
+2024-03-04      12:24PM
+    - [TODO] implement editing and deleting post
+
 2024-03-04      9:39AM
-    - error in saving file and reading file
+    - error in saving file and reading file [deprecated]
+    - we use the database instead of file for saving the current user
 
 2024-03-04      9:20AM
-I am planning to create just one table for post, for better reading posts,
-since it is only located on one table. Editing it is easy too, just:
-    Select * from [$TABLE_NAME] where [$USERNAME_COL] = 'username';
-
+    - I am planning to create just one table for post, for better reading posts,
+        since it is only located on one table. Editing it is easy too, just:
+            Select * from [$TABLE_NAME] where [$USERNAME_COL] = 'username';
+    - [done]
 
 2024-03-03      9:57PM
-I am trying to save the current user logged in to a file and read it later.
+    - I am trying to save the current user logged in to a file and read it later. [deprecated]
+    - we use database instead.
 
 2024-03-03      8:51PM
 When the user clicked Register on Login
-    - create another table with the name of user
+    - create another table with the name of user [deprecated]
         [ex. ralph_table -> values (user_created, label(content), date_posted]
 
 

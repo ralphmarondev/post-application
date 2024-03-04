@@ -123,6 +123,12 @@ class DBHandler(context: Context) : SQLiteOpenHelper(context, DB_NAME, null, DB_
         return items
     }
 
+    fun deletePost(id: Int, username: String) {
+        val db = this.readableDatabase
+
+        db.delete(POSTS_TABLE, "id = ? AND $USER_CREATED_COL = ?", arrayOf(id.toString(), username))
+    }
+
     fun setCurrentUser(currentUser: String) {
         val db = this.writableDatabase
         val values = ContentValues()
@@ -154,5 +160,29 @@ class DBHandler(context: Context) : SQLiteOpenHelper(context, DB_NAME, null, DB_
         val db = this@DBHandler.writableDatabase
 
         db.delete(CURRENT_USER_TABLE, null, null)
+    }
+
+    fun readPostWhereUsername(username: String): List<PostModel> {
+        val items = mutableListOf<PostModel>()
+        val db = this.readableDatabase
+        val cursor =
+            db.rawQuery("SELECT * FROM $POSTS_TABLE WHERE $USERNAME_COL = ?", arrayOf(username))
+
+        cursor?.let {
+            if (cursor.moveToFirst()) {
+                do {
+                    items.add(
+                        PostModel(
+                            id = cursor.getInt(0),
+                            userCreated = cursor.getString(1),
+                            label = cursor.getString(2),
+                            datePosted = cursor.getString(3)
+                        )
+                    )
+                } while (cursor.moveToNext())
+            }
+            cursor.close()
+        }
+        return items
     }
 }
