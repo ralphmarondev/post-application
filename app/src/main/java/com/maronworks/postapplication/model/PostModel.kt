@@ -1,6 +1,7 @@
 package com.maronworks.postapplication.model
 
 data class PostModel(
+    val id: Int = -1,
     val userCreated: String,
     val label: String,
     val datePosted: String

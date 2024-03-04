@@ -3,9 +3,9 @@ package com.maronworks.postapplication.data
 import android.annotation.SuppressLint
 import android.content.ContentValues
 import android.content.Context
-import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
+import com.maronworks.postapplication.model.PostModel
 
 class DBHandler(context: Context) : SQLiteOpenHelper(context, DB_NAME, null, DB_VERSION) {
     companion object {
@@ -98,8 +98,27 @@ class DBHandler(context: Context) : SQLiteOpenHelper(context, DB_NAME, null, DB_
         db.close()
     }
 
-    fun readPosts() {
-        // TODO: Implement this 
+    fun readPosts(): List<PostModel> {
+        val items = mutableListOf<PostModel>()
+        val db = this.readableDatabase
+        val cursor = db.rawQuery("SELECT * FROM $POSTS_TABLE", null)
+
+        cursor?.let {
+            if (cursor.moveToFirst()) {
+                do {
+                    items.add(
+                        PostModel(
+                            id = cursor.getInt(0),
+                            userCreated = cursor.getString(1),
+                            label = cursor.getString(2),
+                            datePosted = cursor.getString(3)
+                        )
+                    )
+                } while (cursor.moveToNext())
+            }
+            cursor.close()
+        }
+        return items
     }
 
     fun setCurrentUser(currentUser: String) {
@@ -118,12 +137,12 @@ class DBHandler(context: Context) : SQLiteOpenHelper(context, DB_NAME, null, DB_
         val db = this.readableDatabase
         val cursor = db.rawQuery("SELECT * FROM $CURRENT_USER", null)
 
-        if(cursor.moveToFirst()){
-            do{
+        if (cursor.moveToFirst()) {
+            do {
                 items.add(
                     cursor.getString(0)
                 )
-            }while(cursor.moveToNext())
+            } while (cursor.moveToNext())
         }
         cursor.close()
         return items[items.size - 1]

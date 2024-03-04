@@ -32,6 +32,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.maronworks.postapplication.data.DBHandler
+import com.maronworks.postapplication.model.PostModel
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
@@ -50,6 +51,8 @@ fun MainScreen(
     } catch (e: Exception) {
         Log.d("reading current user", "Error: ${e.message}")
     }
+
+    val itemsList = rememberSaveable { mutableListOf<PostModel>() }
 
     Scaffold(
         bottomBar = {
@@ -80,7 +83,21 @@ fun MainScreen(
     ) {
         Box {
             when (selectedIndex) {
-                0 -> HomeScreen(navController = navController)
+                0 -> {
+                    try {
+                        itemsList.clear()
+                        itemsList.addAll(db.readPosts())
+                        itemsList.reverse() // so the first post will be the last added
+                        Log.d("reading posts", "Success!")
+                    } catch (e: Exception) {
+                        Log.d("reading posts", "Error: ${e.message}")
+                    }
+                    HomeScreen(
+                        navController = navController,
+                        itemsList = itemsList
+                    )
+                }
+
                 1 -> AddScreen(onPostClick = { selectedIndex = 0 }) // back to home
                 2 -> ProfileScreen(currentUser)
 
