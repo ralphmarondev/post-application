@@ -10,7 +10,7 @@ import com.maronworks.postapplication.model.PostModel
 class DBHandler(context: Context) : SQLiteOpenHelper(context, DB_NAME, null, DB_VERSION) {
     companion object {
         const val DB_NAME = "app_db"
-        const val DB_VERSION = 3
+        const val DB_VERSION = 4
         const val USERS_TABLE = "users_table"
         const val USERNAME_COL = "username_col"
         const val PASSWORD_COL = "password_col"
