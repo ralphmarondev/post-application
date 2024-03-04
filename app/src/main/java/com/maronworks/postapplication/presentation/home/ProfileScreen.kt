@@ -112,7 +112,7 @@ fun ProfileScreen(
                     fontSize = 14.sp,
                     color = MaterialTheme.colorScheme.secondary
                 )
-                Divider(modifier = Modifier.padding(10.dp))
+                Divider(modifier = Modifier.padding(top = 10.dp, bottom = 10.dp))
 
                 TabRow(selectedTabIndex = selectedIndex) {
                     tabRowItem.forEachIndexed { index, item ->

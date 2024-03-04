@@ -39,7 +39,7 @@ fun MainScreen(
     navController: NavHostController
 ) {
     var selectedIndex by remember { mutableIntStateOf(0) }
-    var currentUser by rememberSaveable { mutableStateOf("cute_girl") }
+    var currentUser by rememberSaveable { mutableStateOf("") }
 
     val context = LocalContext.current
     val db = DBHandler(context)
@@ -107,7 +107,7 @@ private val bottomBarItem = listOf(
         selectedIcon = Icons.Filled.Add
     ),
     BottomBarItem(
-        label = "Home",
+        label = "Profile",
         defaultIcon = Icons.Outlined.AccountCircle,
         selectedIcon = Icons.Filled.AccountCircle
     )
