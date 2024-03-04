@@ -20,7 +20,7 @@ class DBHandler(context: Context) : SQLiteOpenHelper(context, DB_NAME, null, DB_
         const val DATE_ADDED_COL = "date_added_col"
         const val LABEL_COL = "label_col" // post content
 
-        const val CURRENT_USER = "current_user_table"
+        const val CURRENT_USER_TABLE = "current_user_table"
 
         // creating tables
         const val CREATE_USERS_TABLE =
@@ -30,7 +30,7 @@ class DBHandler(context: Context) : SQLiteOpenHelper(context, DB_NAME, null, DB_
 
         // for saving current user
         const val CREATE_CURRENT_USER_TABLE =
-            "CREATE TABLE $CURRENT_USER ($USERNAME_COL TEXT NOT NULL)"
+            "CREATE TABLE $CURRENT_USER_TABLE ($USERNAME_COL TEXT NOT NULL)"
 
     }
 
@@ -43,7 +43,7 @@ class DBHandler(context: Context) : SQLiteOpenHelper(context, DB_NAME, null, DB_
     override fun onUpgrade(db: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {
         db?.execSQL("DROP TABLE IF EXISTS $USERS_TABLE")
         db?.execSQL("DROP TABLE IF EXISTS $POSTS_TABLE")
-        db?.execSQL("DROP TABLE IF EXISTS $CURRENT_USER")
+        db?.execSQL("DROP TABLE IF EXISTS $CURRENT_USER_TABLE")
 
         onCreate(db)
     }
@@ -57,7 +57,6 @@ class DBHandler(context: Context) : SQLiteOpenHelper(context, DB_NAME, null, DB_
 
         db.insert(USERS_TABLE, null, values)
         db.close()
-        // create new table [ex: username + '_table']
     }
 
     fun isUserExist(username: String, password: String): Boolean {
@@ -73,12 +72,16 @@ class DBHandler(context: Context) : SQLiteOpenHelper(context, DB_NAME, null, DB_
         // if exists is greater than 0, return true [go home] else stay
     }
 
-    // table for post
-    fun createTable(username: String) {
-        val db = this.writableDatabase
+    fun isUsernameInDB(username: String): Boolean {
+        val db = this.readableDatabase
+        val cursor = db.rawQuery(
+            "SELECT * FROM $USERS_TABLE WHERE $USERNAME_COL = ?",
+            arrayOf(username)
+        )
+        val exists = cursor.count > 0
 
-        db.execSQL("CREATE TABLE ${username}_table (id INTEGER PRIMARY KEY AUTOINCREMENT, $USER_CREATED_COL TEXT NOT NULL, $LABEL_COL TEXT NOT NULL, $DATE_ADDED_COL TEXT NOT NULL)")
-        db.close()
+        cursor.close()
+        return exists
     }
 
     fun savePost(
@@ -88,7 +91,6 @@ class DBHandler(context: Context) : SQLiteOpenHelper(context, DB_NAME, null, DB_
     ) {
         val db = this.writableDatabase
         val values = ContentValues()
-        //val table = userCreated + "_table"
 
         values.put(USER_CREATED_COL, userCreated)
         values.put(LABEL_COL, label)
@@ -127,7 +129,7 @@ class DBHandler(context: Context) : SQLiteOpenHelper(context, DB_NAME, null, DB_
 
         values.put(USERNAME_COL, currentUser)
 
-        db.insert(CURRENT_USER, null, values)
+        db.insert(CURRENT_USER_TABLE, null, values)
         db.close()
     }
 
@@ -135,7 +137,7 @@ class DBHandler(context: Context) : SQLiteOpenHelper(context, DB_NAME, null, DB_
     fun readCurrentUser(): String {
         val items: ArrayList<String> = ArrayList()
         val db = this.readableDatabase
-        val cursor = db.rawQuery("SELECT * FROM $CURRENT_USER", null)
+        val cursor = db.rawQuery("SELECT * FROM $CURRENT_USER_TABLE", null)
 
         if (cursor.moveToFirst()) {
             do {
@@ -146,5 +148,11 @@ class DBHandler(context: Context) : SQLiteOpenHelper(context, DB_NAME, null, DB_
         }
         cursor.close()
         return items[items.size - 1]
+    }
+
+    fun deleteAllCurrentUser() {
+        val db = this@DBHandler.writableDatabase
+
+        db.delete(CURRENT_USER_TABLE, null, null)
     }
 }

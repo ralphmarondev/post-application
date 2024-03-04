@@ -19,3 +19,11 @@ fun readPosts(): ArrayList<PostModel> {
     cursor.close()
     return items
 }
+
+// table for post
+fun createTable(username: String) {
+    val db = this.writableDatabase
+
+    db.execSQL("CREATE TABLE ${username}_table (id INTEGER PRIMARY KEY AUTOINCREMENT, $USER_CREATED_COL TEXT NOT NULL, $LABEL_COL TEXT NOT NULL, $DATE_ADDED_COL TEXT NOT NULL)")
+    db.close()
+}

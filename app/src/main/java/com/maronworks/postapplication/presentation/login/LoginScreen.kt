@@ -1,6 +1,7 @@
 package com.maronworks.postapplication.presentation.login
 
 import android.util.Log
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -181,14 +182,25 @@ private fun Login(navController: NavHostController) {
             Button(
                 onClick = {
                     try {
-                        if (db.isUserExist(username, password)) {
-                            Log.d(
-                                "login",
-                                "Login success! value: ${db.isUserExist(username, password)}"
-                            )
-                            db.setCurrentUser(username)
-                            navController.navigate(Screens.Main.route)
+                        if (db.isUsernameInDB(username)) {
+                            if (db.isUserExist(username, password)) {
+                                Log.d(
+                                    "login",
+                                    "Login success! value: ${db.isUserExist(username, password)}"
+                                )
+                                db.setCurrentUser(username)
+                                navController.navigate(Screens.Main.route)
+                            } else {
+                                Toast.makeText(
+                                    context,
+                                    "Incorrect Password. Please Try Again.",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                                Log.d("login", "Incorrect password for: $username")
+                            }
                         } else {
+                            Toast.makeText(context, "User $username not found!", Toast.LENGTH_SHORT)
+                                .show()
                             Log.d(
                                 "login",
                                 "Login success! value: ${db.isUserExist(username, password)}"
@@ -292,14 +304,31 @@ private fun Register(onClick: () -> Unit) {
             Spacer(modifier = Modifier.height(15.dp))
             Button(
                 onClick = {
-                    // saving data to db
                     try {
-                        db.addNewUser(username, password)
-                        Log.d("register", "Registration success! Values: $username, $password")
-
-                        // create new table specific for this user
-                        // db.createTable(username)
-                        onClick()
+                        if (db.isUserExist(username, password)) {
+                            Toast.makeText(context, "User Already Exists!", Toast.LENGTH_SHORT)
+                                .show()
+                        } else {
+                            if (db.isUsernameInDB(username)) {
+                                Toast.makeText(
+                                    context,
+                                    "Username is already taken.",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            } else {
+                                db.addNewUser(username, password)
+                                Log.d(
+                                    "register",
+                                    "Registration success! Values: $username, $password"
+                                )
+                                Toast.makeText(
+                                    context,
+                                    "User Registered successfully!",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                                onClick()
+                            }
+                        }
                     } catch (e: Exception) {
                         Log.d("register", "Error: ${e.message}")
                     }
