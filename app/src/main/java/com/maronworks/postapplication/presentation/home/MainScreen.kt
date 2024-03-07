@@ -53,6 +53,9 @@ fun MainScreen(
     }
 
     val itemsList = rememberSaveable { mutableListOf<PostModel>() }
+    val postsList = rememberSaveable {
+        mutableListOf<PostModel>()
+    }
 
     Scaffold(
         bottomBar = {
@@ -98,12 +101,24 @@ fun MainScreen(
                     )
                 }
 
-                1 -> AddScreen(onPostClick = { selectedIndex = 0 }) // back to home
-                2 -> ProfileScreen(
-                    currentUser = currentUser,
-                    //postItems = itemsList
-                )
+                1 -> {
+                    AddScreen(onPostClick = { selectedIndex = 0 }) // back to home
+                }
 
+                2 -> {
+                    try {
+                        postsList.clear()
+                        postsList.addAll(db.readPosts())
+                        postsList.reverse() // so the first post will be the last added
+                        Log.d("reading posts", "Success!")
+                    } catch (e: Exception) {
+                        Log.d("reading posts", "Error: ${e.message}")
+                    }
+                    ProfileScreen(
+                        currentUser = currentUser,
+                        postsList = postsList
+                    )
+                }
             }
         }
     }

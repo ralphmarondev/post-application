@@ -1,5 +1,11 @@
+2024-03-04      10:35PM
+    - I am removing the icon button to edit post in [HomeScreen], however I will show a list of
+        posts the current user created on the [ProfileScreen] and there, the user can edit or
+        delete it.
+
 2024-03-04      12:24PM
     - [TODO] implement editing and deleting post
+    - [DONE] 2024-3-04  10:35PM
 
 2024-03-04      9:39AM
     - error in saving file and reading file [deprecated]

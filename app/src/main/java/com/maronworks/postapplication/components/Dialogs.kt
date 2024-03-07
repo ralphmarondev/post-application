@@ -31,7 +31,6 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import com.maronworks.postapplication.data.DBHandler
 import com.maronworks.postapplication.model.PostModel
-import com.maronworks.postapplication.model.postModelItems
 
 @Composable
 fun ShowDropMenuDialogOthers(

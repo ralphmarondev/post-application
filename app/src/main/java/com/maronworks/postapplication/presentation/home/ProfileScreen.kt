@@ -4,12 +4,13 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
@@ -51,16 +52,17 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.maronworks.postapplication.R
+import com.maronworks.postapplication.components.ProfilePostCard
 import com.maronworks.postapplication.model.PostModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ProfileScreen(
     currentUser: String,
-   // postItems: MutableList<PostModel>?
+    postsList: MutableList<PostModel>
 ) {
     var selectedIndex by rememberSaveable {
-        mutableIntStateOf(0)
+        mutableIntStateOf(1)
     }
 
     Scaffold(
@@ -138,54 +140,9 @@ fun ProfileScreen(
                     }
                 }
                 when (selectedIndex) {
-                    0 -> {
-//                        if (postItems != null) {
-//                            PostsTab(postItems = postItems)
-//                        }
-                        Box(
-                            modifier = Modifier
-                                .fillMaxSize()
-                                .defaultMinSize(minHeight = 200.dp),
-                            contentAlignment = Alignment.Center
-                        ) {
-                            Text(
-                                text = "Hello there!",
-                                fontFamily = FontFamily.Monospace,
-                                fontWeight = FontWeight.W600,
-                                fontSize = 16.sp,
-                                color = MaterialTheme.colorScheme.secondary,
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(10.dp),
-                                textAlign = TextAlign.Center
-                            )
-                        }
-                    }
-
-                    1 -> {
-                        SecondTab()
-                    }
-
-                    2 -> {
-                        Box(
-                            modifier = Modifier
-                                .fillMaxSize()
-                                .defaultMinSize(minHeight = 200.dp),
-                            contentAlignment = Alignment.Center
-                        ) {
-                            Text(
-                                text = "Coming Soon...",
-                                fontFamily = FontFamily.Monospace,
-                                fontWeight = FontWeight.W600,
-                                fontSize = 16.sp,
-                                color = MaterialTheme.colorScheme.secondary,
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(10.dp),
-                                textAlign = TextAlign.Center
-                            )
-                        }
-                    }
+                    0 -> SecondTab()
+                    1 -> ListOfPostsTab(posts = postsList)
+                    2 -> ThirdTab()
                 }
             }
         }
@@ -193,14 +150,31 @@ fun ProfileScreen(
 }
 
 @Composable
-fun PostsTab(postItems: MutableList<PostModel>) {
-    LazyColumn {
-        items(postItems.size) { index ->
-//            PostCard(
-//                userCreated = postItems[index].userCreated,
-//                label = postItems[index].label,
-//                datePosted = postItems[index].datePosted
-//            )
+fun ListOfPostsTab(posts: MutableList<PostModel>) {
+    if (posts.isEmpty()) {
+        Box(
+            modifier = Modifier.fillMaxSize(),
+            contentAlignment = Alignment.Center
+        ) {
+            Text(
+                text = "Not post yet. Go and create one!",
+                fontSize = 20.sp,
+                fontWeight = FontWeight.W600,
+                modifier = Modifier
+                    .padding(10.dp)
+            )
+        }
+    } else {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+//            .verticalScroll(rememberScrollState())
+                .padding(start = 5.dp, end = 5.dp, top = 15.dp, bottom = 15.dp)
+        ) {
+            posts.forEachIndexed { index, _ ->
+                ProfilePostCard(item = posts[index])
+            }
+            Spacer(modifier = Modifier.height(50.dp))
         }
     }
 }
@@ -262,6 +236,28 @@ private fun SecondTab() {
     }
 }
 
+@Composable
+private fun ThirdTab() {
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .defaultMinSize(minHeight = 200.dp),
+        contentAlignment = Alignment.Center
+    ) {
+        Text(
+            text = "Coming Soon...",
+            fontFamily = FontFamily.Monospace,
+            fontWeight = FontWeight.W600,
+            fontSize = 16.sp,
+            color = MaterialTheme.colorScheme.secondary,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(10.dp),
+            textAlign = TextAlign.Center
+        )
+    }
+}
+
 private data class TabRowModel(
     val label: String,
     val icon: ImageVector
@@ -285,6 +281,7 @@ private val tabRowItem = listOf(
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
 private fun ProfileScreenPrev() {
+    val postLists = remember { mutableListOf<PostModel>() }
     val items = mutableListOf(
         PostModel(
             userCreated = "ralphmaron",
@@ -308,5 +305,8 @@ private fun ProfileScreenPrev() {
             datePosted = "2024-03-03 at 10:24AM"
         )
     )
-//    ProfileScreen(currentUser = "cute_girl", postItems = items)
+    postLists.clear()
+    postLists.addAll(items)
+
+    ProfileScreen(currentUser = "cute_girl", postsList = items)
 }

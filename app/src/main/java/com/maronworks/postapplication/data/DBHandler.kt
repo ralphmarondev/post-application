@@ -123,6 +123,10 @@ class DBHandler(context: Context) : SQLiteOpenHelper(context, DB_NAME, null, DB_
         return items
     }
 
+    fun updatePost(id: Int, username: String, label: String) {
+        // update
+    }
+
     fun deletePost(id: Int, username: String) {
         val db = this.readableDatabase
 
@@ -166,7 +170,7 @@ class DBHandler(context: Context) : SQLiteOpenHelper(context, DB_NAME, null, DB_
         val items = mutableListOf<PostModel>()
         val db = this.readableDatabase
         val cursor =
-            db.rawQuery("SELECT * FROM $POSTS_TABLE WHERE $USERNAME_COL = ?", arrayOf(username))
+            db.rawQuery("SELECT * FROM $POSTS_TABLE WHERE $USER_CREATED_COL = ?", arrayOf(username))
 
         cursor?.let {
             if (cursor.moveToFirst()) {
