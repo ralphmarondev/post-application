@@ -1,3 +1,6 @@
+2024-03-07      10:16PM
+    - Implement the databases now.
+
 2024-03-04      10:35PM
     - I am removing the icon button to edit post in [HomeScreen], however I will show a list of
         posts the current user created on the [ProfileScreen] and there, the user can edit or

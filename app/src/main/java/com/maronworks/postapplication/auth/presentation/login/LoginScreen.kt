@@ -82,7 +82,7 @@ fun LoginScreen(
 
                     when (vm.selectedTab.intValue) {
                         0 -> Login(navController = navController)
-                        1 -> Register(onRegister = { vm.onRegister() })
+                        1 -> Register(onRegister = { vm.onChangeTab(0) })
                     }
                 }
             }

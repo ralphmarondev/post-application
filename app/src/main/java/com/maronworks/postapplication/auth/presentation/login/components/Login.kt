@@ -18,6 +18,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
@@ -32,6 +33,8 @@ private val vm = LoginViewModel()
 fun Login(
     navController: NavHostController
 ) {
+    val context = LocalContext.current
+
     Card(
         modifier = Modifier
             .padding(5.dp),
@@ -44,7 +47,9 @@ fun Login(
         ) {
             OutlinedTextField(
                 value = vm.username.value,
-                onValueChange = { vm.username.value = it },
+                onValueChange = {
+                    vm.username.value = it
+                },
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(5.dp),
@@ -75,7 +80,9 @@ fun Login(
 
             OutlinedTextField(
                 value = vm.password.value,
-                onValueChange = { vm.password.value = it },
+                onValueChange = {
+                    vm.password.value = it
+                },
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(5.dp),
@@ -107,7 +114,10 @@ fun Login(
             Spacer(modifier = Modifier.height(15.dp))
             Button(
                 onClick = {
-                    vm.onLogin(navController = navController)
+                    vm.onLogin(
+                        navController = navController,
+                        context = context
+                    )
                 }
             ) {
                 Text(

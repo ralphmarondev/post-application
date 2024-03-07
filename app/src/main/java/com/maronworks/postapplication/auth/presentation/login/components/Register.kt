@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.AccountBox
 import androidx.compose.material.icons.outlined.AccountCircle
 import androidx.compose.material.icons.outlined.Lock
 import androidx.compose.material3.Button
@@ -18,6 +19,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
@@ -26,10 +28,13 @@ import androidx.compose.ui.unit.sp
 import com.maronworks.postapplication.auth.domain.model.login.LoginViewModel
 
 private val vm = LoginViewModel()
+
 @Composable
 fun Register(
     onRegister: () -> Unit
 ) {
+    val context = LocalContext.current
+
     Card(
         modifier = Modifier
             .padding(5.dp),
@@ -41,8 +46,43 @@ fun Register(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             OutlinedTextField(
+                value = vm.fullName.value,
+                onValueChange = {
+                    vm.fullName.value = it
+                },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(5.dp),
+                textStyle = TextStyle(
+                    fontFamily = FontFamily.Monospace,
+                    fontSize = 14.sp,
+                    fontWeight = FontWeight.W500,
+                    color = MaterialTheme.colorScheme.onSecondaryContainer
+                ),
+                leadingIcon = {
+                    Icon(
+                        imageVector = Icons.Outlined.AccountBox,
+                        contentDescription = "",
+                        tint = MaterialTheme.colorScheme.onSecondaryContainer
+                    )
+                },
+                placeholder = {
+                    Text(
+                        text = "Full Name...",
+                        fontFamily = FontFamily.Monospace,
+                        fontSize = 14.sp,
+                        fontWeight = FontWeight.W500,
+                        color = MaterialTheme.colorScheme.onSecondaryContainer
+                    )
+                },
+                singleLine = true
+            )
+
+            OutlinedTextField(
                 value = vm.username.value,
-                onValueChange = { vm.username.value = it },
+                onValueChange = {
+                    vm.username.value = it
+                },
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(5.dp),
@@ -73,7 +113,9 @@ fun Register(
 
             OutlinedTextField(
                 value = vm.password.value,
-                onValueChange = { vm.password.value = it },
+                onValueChange = {
+                    vm.password.value = it
+                },
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(5.dp),
@@ -105,6 +147,7 @@ fun Register(
             Spacer(modifier = Modifier.height(15.dp))
             Button(
                 onClick = {
+                    vm.onRegister(context)
                     onRegister()
                 }
             ) {
