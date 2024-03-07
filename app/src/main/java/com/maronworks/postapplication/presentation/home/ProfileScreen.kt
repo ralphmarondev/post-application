@@ -116,7 +116,7 @@ fun ProfileScreen(
                     color = MaterialTheme.colorScheme.primary
                 )
                 Text(
-                    text = "@$currentUser",
+                    text = "@$currentUser", //"@${readFromFile()}",
                     fontFamily = FontFamily.Monospace,
                     fontWeight = FontWeight.W500,
                     fontSize = 14.sp,
