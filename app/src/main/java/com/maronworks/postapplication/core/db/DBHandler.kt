@@ -4,11 +4,12 @@ import android.content.ContentValues
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
+import com.maronworks.postapplication.mainf.domain.model.newpost.PostModel
 
 open class DBHandler(context: Context) : SQLiteOpenHelper(context, DB_NAME, null, DB_VERSION) {
     companion object {
         private const val DB_NAME = "app_db"
-        private const val DB_VERSION = 7
+        private const val DB_VERSION = 8
 
         // auth
         private const val USERS_TABLE = "users_table"
@@ -17,6 +18,12 @@ open class DBHandler(context: Context) : SQLiteOpenHelper(context, DB_NAME, null
         private const val FULL_NAME_COL = "full_name"
         private const val USERS_QUERY = "CREATE TABLE $USERS_TABLE ($USERNAME_COL TEXT NOT NULL, " +
                 "$PASSWORD_COL TEXT NOT NULL, $FULL_NAME_COL TEXT NOT NULL)"
+
+
+        // core
+        private const val CURRENT_USER_TABLE = "current_user_table"
+        private const val CURRENT_USER_QUERY = "CREATE TABLE $CURRENT_USER_TABLE ($USERNAME_COL TEXT NOT NULL)"
+
 
         // mainF
         private const val POST_TABLE = "post_table"
@@ -32,12 +39,14 @@ open class DBHandler(context: Context) : SQLiteOpenHelper(context, DB_NAME, null
     override fun onCreate(db: SQLiteDatabase?) {
         db?.execSQL(USERS_QUERY)
         db?.execSQL(POST_QUERY)
+        db?.execSQL(CURRENT_USER_QUERY)
 //        db?.close()
     }
 
     override fun onUpgrade(db: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {
         db?.execSQL("DROP TABLE IF EXISTS $USERS_TABLE")
         db?.execSQL("DROP TABLE IF EXISTS $POST_TABLE")
+        db?.execSQL("DROP TABLE IF EXISTS $CURRENT_USER_TABLE")
         onCreate(db)
     }
 
@@ -64,7 +73,8 @@ open class DBHandler(context: Context) : SQLiteOpenHelper(context, DB_NAME, null
     ): Boolean {
         val db = this.readableDatabase
         val cursor = db.rawQuery(
-            "SELECT * FROM $USERS_TABLE WHERE $USERNAME_COL = ? AND $PASSWORD_COL = ?", arrayOf(username, password)
+            "SELECT * FROM $USERS_TABLE WHERE $USERNAME_COL = ? AND $PASSWORD_COL = ?",
+            arrayOf(username, password)
         )
         val exists = cursor.count > 0
         cursor.close()
@@ -72,17 +82,82 @@ open class DBHandler(context: Context) : SQLiteOpenHelper(context, DB_NAME, null
         return exists
     }
 
+
+    // core
+    fun setCurrentUser(currentUser: String){
+        val db = this.writableDatabase
+        val values = ContentValues()
+
+        values.put(USERNAME_COL, currentUser)
+        db.insert(CURRENT_USER_TABLE, null, values)
+    }
+
+    fun readCurrentUser():String{
+        val items: ArrayList<String> = ArrayList()
+        val db =this.readableDatabase
+        val cursor = db.rawQuery("SELECT * FROM $CURRENT_USER_TABLE", null)
+
+        if(cursor.moveToFirst()){
+            do {
+                items.add(
+                    cursor.getString(0)
+                )
+            }while(cursor.moveToNext())
+        }
+        cursor.close()
+        return items[items.size - 1]
+    }
+
+    fun deleteAllCurrentUser(){
+        val db = this.writableDatabase
+
+        db.delete(CURRENT_USER_TABLE, "", null)
+    }
+
+
+
     // mainF
     fun addPost(
         userCreated: String,
         postContent: String,
         datePosted: String
     ) {
+        val db = this.writableDatabase
+        val values = ContentValues()
 
+        values.put(USER_CREATED, userCreated)
+        values.put(POST_CONTENT, postContent)
+        values.put(DATE_POSTED, datePosted)
+
+        db.insert(POST_TABLE, null, values)
     }
 
     fun readPost() {
+        val items = mutableListOf<PostModel>()
+        val db = this.readableDatabase
+        val cursor = db.rawQuery("SELECT * FROM $POST_TABLE", null)
 
+        cursor?.let {
+            if (cursor.moveToFirst()) {
+                do {
+                    items.add(
+                        PostModel(
+                            id = cursor.getInt(0),
+                            userCreated = cursor.getString(1),
+                            postContent = cursor.getString(2),
+                            datePosted = cursor.getString(3)
+                        )
+                    )
+                } while (cursor.moveToNext())
+            }
+            cursor.close()
+        }
+    }
+
+    fun deletePost(id: Int, userCreated: String){
+        val db = this.readableDatabase
+
+        db.delete(POST_TABLE, "$USER_CREATED = ? AND $POST_ID = ?", arrayOf(userCreated, id.toString()))
     }
 
 }

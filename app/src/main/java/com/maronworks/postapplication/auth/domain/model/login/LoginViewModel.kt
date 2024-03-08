@@ -40,6 +40,7 @@ class LoginViewModel : ViewModel() {
                         )
                     }"
                 )
+                db.setCurrentUser(username.value)
                 navController.navigate(Screens.MainF.route)
             } else {
                 Log.d("login", "Failed: Invalid credentials")

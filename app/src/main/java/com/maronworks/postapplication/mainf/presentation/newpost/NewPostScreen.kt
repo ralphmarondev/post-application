@@ -19,6 +19,7 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
@@ -26,14 +27,15 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.maronworks.postapplication.mainf.domain.model.newpost.NewPostViewModel
 
-private val vm = NewPostViewModel()
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun NewPostScreen(
     onPost: () -> Unit,
     onClose: () -> Unit
 ) {
+    val vm = NewPostViewModel()
+    val context = LocalContext.current
+
     Scaffold(
         topBar = {
             TopAppBar(
@@ -53,6 +55,7 @@ fun NewPostScreen(
                 actions = {
                     TextButton(
                         onClick = {
+                            vm.addNewPost(context)
                             onPost()
                         }
                     ) {

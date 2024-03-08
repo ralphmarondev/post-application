@@ -19,13 +19,13 @@ import com.maronworks.postapplication.mainf.presentation.home.HomeScreen
 import com.maronworks.postapplication.mainf.presentation.newpost.NewPostScreen
 import com.maronworks.postapplication.mainf.presentation.profile.ProfileScreen
 
-private val vm = MainFViewModel()
-
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun MainScreen(
     navController: NavHostController
 ) {
+    val vm = MainFViewModel()
+
     Scaffold(
         bottomBar = {
             NavigationBar {
