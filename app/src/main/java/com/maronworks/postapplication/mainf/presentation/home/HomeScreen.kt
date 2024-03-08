@@ -15,12 +15,17 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontFamily
 import androidx.navigation.NavHostController
+import com.maronworks.postapplication.mainf.domain.model.home.HomeViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(navController: NavHostController) {
+    val vm = HomeViewModel()
+    val context = LocalContext.current
+
     Scaffold(
         topBar = {
             TopAppBar(
@@ -30,7 +35,10 @@ fun HomeScreen(navController: NavHostController) {
                 actions = {
                     IconButton(
                         onClick = {
-                            navController.popBackStack()
+                            vm.onExit(
+                                context = context,
+                                navController = navController
+                            )
                         }
                     ) {
                         Icon(
