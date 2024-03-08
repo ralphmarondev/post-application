@@ -1,5 +1,10 @@
+2024-03-08      7:57AM
+    - add user input check before adding to database [i.e. character limit and minimum]
+
+
 2024-03-07      10:16PM
     - Implement the databases now.
+    - [2024-03-08] @ [7:57 AM] done implementing register and login
 
 2024-03-04      10:35PM
     - I am removing the icon button to edit post in [HomeScreen], however I will show a list of

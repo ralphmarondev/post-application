@@ -27,13 +27,13 @@ import com.maronworks.postapplication.auth.domain.model.login.loginTabItems
 import com.maronworks.postapplication.auth.presentation.login.components.Login
 import com.maronworks.postapplication.auth.presentation.login.components.Register
 
-private val vm = LoginViewModel()
-
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun LoginScreen(
     navController: NavHostController
 ) {
+    val vm = LoginViewModel()
+
     Scaffold {
         Box(
             modifier = Modifier

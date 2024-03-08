@@ -27,12 +27,11 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.maronworks.postapplication.auth.domain.model.login.LoginViewModel
 
-private val vm = LoginViewModel()
-
 @Composable
 fun Login(
     navController: NavHostController
 ) {
+    val vm = LoginViewModel()
     val context = LocalContext.current
 
     Card(

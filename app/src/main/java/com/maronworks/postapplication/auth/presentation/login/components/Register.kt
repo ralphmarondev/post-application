@@ -27,12 +27,12 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.maronworks.postapplication.auth.domain.model.login.LoginViewModel
 
-private val vm = LoginViewModel()
 
 @Composable
 fun Register(
     onRegister: () -> Unit
 ) {
+    val vm = LoginViewModel()
     val context = LocalContext.current
 
     Card(
