@@ -77,12 +77,6 @@ fun HomeScreen(
                 items(post.size) { index ->
                     PostCard(post = post[index])
                 }
-//                // TODO: Add option to delete this default posts.
-//                items(postModelItems.size) { index ->
-//                    PostCard(
-//                        item = postModelItems[index]
-//                    )
-//                }
                 // padding on the bottom
                 item {
                     Spacer(modifier = Modifier.height(100.dp))

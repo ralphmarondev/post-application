@@ -91,12 +91,13 @@ fun PostCard(
                 Text(
                     text = post.postContent,//label,
                     modifier = Modifier
+                        .fillMaxWidth()
                         .clickable { vm.onExpand() }
                         .padding(5.dp),
                     fontFamily = FontFamily.Monospace,
                     fontSize = 16.sp,
                     fontWeight = FontWeight.W500,
-                    maxLines = if (vm.isExpanded()) Int.MAX_VALUE else 4,
+                    maxLines = vm.postContentMaxLines(),
                     overflow = TextOverflow.Ellipsis,
                     color = MaterialTheme.colorScheme.secondary
                 )
@@ -119,35 +120,29 @@ fun PostCard(
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
                     ReactionIconButton(
-                        icon = Icons.Outlined.Email,
-                        onClick = { }
+                        icon = vm.commentIcon(),
+                        onClick = { vm.onCommentClick() }
                     )
 
                     ReactionIconButton(
-                        icon = Icons.Outlined.FavoriteBorder,
-                        onClick = { }
+                        icon = vm.favoriteIcon(),
+                        onClick = { vm.onFavoriteClick() }
                     )
 
                     ReactionIconButton(
-                        icon = Icons.Outlined.AccountBox,
-                        onClick = { }
+                        icon = vm.repostIcon(),
+                        onClick = { vm.onRepostClick() }
                     )
 
                     ReactionIconButton(
-                        icon = Icons.Outlined.Share,
-                        onClick = { }
+                        icon = vm.shareIcon(),
+                        onClick = { vm.onShareClick() }
                     )
                 }
             }
         }
     }
 }
-
-private data class ReactionModel(
-    val selectedIcon: ImageVector,
-    val defaultIcon: ImageVector,
-    val onClick: () -> Unit
-)
 
 @Composable
 private fun ReactionIconButton(
