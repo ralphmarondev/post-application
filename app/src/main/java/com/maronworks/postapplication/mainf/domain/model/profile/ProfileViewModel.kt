@@ -18,11 +18,19 @@ class ProfileViewModel : ViewModel() {
             username.value // return this
         } catch (e: Exception) {
             Log.d("reading current user", "Error: ${e.message}")
-            "Error!" // else return this
+            "Error [Username]!" // else return this
         }
     }
 
     fun getFullName(context :Context):String{
-        return fullName.value
+        return try {
+            val db = DBHandler(context)
+
+            fullName.value = db.getCurrentUserDetails(username.value).fullName
+            fullName.value // return this
+        } catch (e: Exception) {
+            Log.d("reading current user", "Error: ${e.message}")
+            "Error [Full Name]!" // else return this
+        }
     }
 }

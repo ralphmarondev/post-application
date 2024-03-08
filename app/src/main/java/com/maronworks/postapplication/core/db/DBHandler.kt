@@ -4,6 +4,7 @@ import android.content.ContentValues
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
+import com.maronworks.postapplication.core.model.user.UserModel
 import com.maronworks.postapplication.mainf.domain.model.newpost.PostModel
 
 open class DBHandler(context: Context) : SQLiteOpenHelper(context, DB_NAME, null, DB_VERSION) {
@@ -22,7 +23,8 @@ open class DBHandler(context: Context) : SQLiteOpenHelper(context, DB_NAME, null
 
         // core
         private const val CURRENT_USER_TABLE = "current_user_table"
-        private const val CURRENT_USER_QUERY = "CREATE TABLE $CURRENT_USER_TABLE ($USERNAME_COL TEXT NOT NULL)"
+        private const val CURRENT_USER_QUERY =
+            "CREATE TABLE $CURRENT_USER_TABLE ($USERNAME_COL TEXT NOT NULL)"
 
 
         // mainF
@@ -84,7 +86,7 @@ open class DBHandler(context: Context) : SQLiteOpenHelper(context, DB_NAME, null
 
 
     // core
-    fun setCurrentUser(currentUser: String){
+    fun setCurrentUser(currentUser: String) {
         val db = this.writableDatabase
         val values = ContentValues()
 
@@ -92,28 +94,48 @@ open class DBHandler(context: Context) : SQLiteOpenHelper(context, DB_NAME, null
         db.insert(CURRENT_USER_TABLE, null, values)
     }
 
-    fun readCurrentUser():String{
+    fun readCurrentUser(): String {
         val items: ArrayList<String> = ArrayList()
-        val db =this.readableDatabase
+        val db = this.readableDatabase
         val cursor = db.rawQuery("SELECT * FROM $CURRENT_USER_TABLE", null)
 
-        if(cursor.moveToFirst()){
+        if (cursor.moveToFirst()) {
             do {
                 items.add(
                     cursor.getString(0)
                 )
-            }while(cursor.moveToNext())
+            } while (cursor.moveToNext())
         }
         cursor.close()
         return items[items.size - 1]
     }
 
-    fun deleteAllCurrentUser(){
+    fun getCurrentUserDetails(username: String): UserModel {
+        val items: ArrayList<UserModel> = ArrayList()
+        val db = this.readableDatabase
+        val cursor =
+            db.rawQuery("SELECT * FROM $USERS_TABLE WHERE $USERNAME_COL = ?", arrayOf(username))
+
+        if (cursor.moveToFirst()) {
+            do {
+                items.add(
+                    UserModel(
+                        fullName = cursor.getString(2),
+//                        password = cursor.getString(1),
+                        username = cursor.getString(0)
+                    )
+                )
+            } while (cursor.moveToNext())
+        }
+        cursor.close()
+        return items[items.size - 1]
+    }
+
+    fun deleteAllCurrentUser() {
         val db = this.writableDatabase
 
         db.delete(CURRENT_USER_TABLE, "", null)
     }
-
 
 
     // mainF
@@ -154,10 +176,14 @@ open class DBHandler(context: Context) : SQLiteOpenHelper(context, DB_NAME, null
         }
     }
 
-    fun deletePost(id: Int, userCreated: String){
+    fun deletePost(id: Int, userCreated: String) {
         val db = this.readableDatabase
 
-        db.delete(POST_TABLE, "$USER_CREATED = ? AND $POST_ID = ?", arrayOf(userCreated, id.toString()))
+        db.delete(
+            POST_TABLE,
+            "$USER_CREATED = ? AND $POST_ID = ?",
+            arrayOf(userCreated, id.toString())
+        )
     }
 
 }

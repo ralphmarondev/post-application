@@ -1,3 +1,6 @@
+2024-03-08      8:57AM
+    - insert the current user fullName and username and read it
+
 2024-03-08      7:57AM
     - add user input check before adding to database [i.e. character limit and minimum]
 
