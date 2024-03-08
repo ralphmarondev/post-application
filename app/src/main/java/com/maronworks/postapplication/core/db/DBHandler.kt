@@ -154,7 +154,7 @@ open class DBHandler(context: Context) : SQLiteOpenHelper(context, DB_NAME, null
         db.insert(POST_TABLE, null, values)
     }
 
-    fun readPost() {
+    fun readPost(): MutableList<PostModel> {
         val items = mutableListOf<PostModel>()
         val db = this.readableDatabase
         val cursor = db.rawQuery("SELECT * FROM $POST_TABLE", null)
@@ -174,6 +174,7 @@ open class DBHandler(context: Context) : SQLiteOpenHelper(context, DB_NAME, null
             }
             cursor.close()
         }
+        return items
     }
 
     fun deletePost(id: Int, userCreated: String) {

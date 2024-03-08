@@ -1,7 +1,11 @@
 package com.maronworks.postapplication.mainf.presentation.home
 
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.ExitToApp
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -17,12 +21,18 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.maronworks.postapplication.mainf.domain.model.home.HomeViewModel
+import com.maronworks.postapplication.mainf.domain.model.home.components.PostCard
+import com.maronworks.postapplication.mainf.domain.model.newpost.PostModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HomeScreen(navController: NavHostController) {
+fun HomeScreen(
+    navController: NavHostController,
+    post: MutableList<PostModel>
+) {
     val vm = HomeViewModel()
     val context = LocalContext.current
 
@@ -59,6 +69,25 @@ fun HomeScreen(navController: NavHostController) {
             modifier = Modifier
                 .padding(innerPadding)
         ) {
+            LazyColumn(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(start = 5.dp, end = 5.dp)
+            ) {
+                items(post.size) { index ->
+                    PostCard(post = post[index])
+                }
+//                // TODO: Add option to delete this default posts.
+//                items(postModelItems.size) { index ->
+//                    PostCard(
+//                        item = postModelItems[index]
+//                    )
+//                }
+                // padding on the bottom
+                item {
+                    Spacer(modifier = Modifier.height(100.dp))
+                }
+            }
         }
     }
 }

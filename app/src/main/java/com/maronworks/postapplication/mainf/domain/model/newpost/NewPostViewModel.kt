@@ -5,6 +5,7 @@ import android.util.Log
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import com.maronworks.postapplication.core.db.DBHandler
+import com.maronworks.postapplication.mainf.domain.util.getCurrentDateTime
 
 class NewPostViewModel : ViewModel() {
     var newPost = mutableStateOf("")
@@ -15,7 +16,7 @@ class NewPostViewModel : ViewModel() {
         try {
             val db = DBHandler(context)
             userCreated.value = db.readCurrentUser()
-            datePosted.value = "2024-03-08" //getDateTime()
+            datePosted.value = getCurrentDateTime()
 
             db.addPost(
                 userCreated = userCreated.value,

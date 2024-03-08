@@ -9,10 +9,12 @@ import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
+import com.maronworks.postapplication.mainf.domain.model.home.HomeViewModel
 import com.maronworks.postapplication.mainf.domain.model.mainf.MainFViewModel
 import com.maronworks.postapplication.mainf.domain.model.mainf.mainFBottomBarItems
 import com.maronworks.postapplication.mainf.presentation.home.HomeScreen
@@ -25,6 +27,8 @@ fun MainScreen(
     navController: NavHostController
 ) {
     val vm = MainFViewModel()
+    val homeViewModel = HomeViewModel()
+    val context = LocalContext.current
 
     Scaffold(
         bottomBar = {
@@ -64,7 +68,13 @@ fun MainScreen(
     ) {
         Box {
             when (vm.selectedIndex.intValue) {
-                0 -> HomeScreen(navController = navController)
+                0 -> {
+                    HomeScreen(
+                        navController = navController,
+                        post = homeViewModel.getAllPosts(context)
+                    )
+                }
+
                 1 -> NewPostScreen(onPost = { vm.goBackHome() }, onClose = { vm.goBackHome() })
                 2 -> ProfileScreen()
             }
