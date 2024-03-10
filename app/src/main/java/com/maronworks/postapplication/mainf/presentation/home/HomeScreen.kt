@@ -24,6 +24,7 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.maronworks.postapplication.mainf.data.dummy.notification.NotificationPostCard
+import com.maronworks.postapplication.mainf.data.dummy.sourcecode.SourceCodePostCard
 import com.maronworks.postapplication.mainf.domain.model.home.HomeViewModel
 import com.maronworks.postapplication.mainf.domain.model.newpost.PostModel
 import com.maronworks.postapplication.mainf.presentation.home.components.PostCard
@@ -80,6 +81,9 @@ fun HomeScreen(
                 }
                 item {
                     NotificationPostCard()
+                }
+                item{
+                    SourceCodePostCard()
                 }
                 // padding on the bottom
                 item {
