@@ -24,6 +24,7 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.maronworks.postapplication.mainf.data.dummy.notification.NotificationPostCard
+import com.maronworks.postapplication.mainf.data.dummy.playaudio.PlayAudioPostCard
 import com.maronworks.postapplication.mainf.data.dummy.sourcecode.SourceCodePostCard
 import com.maronworks.postapplication.mainf.domain.model.home.HomeViewModel
 import com.maronworks.postapplication.mainf.domain.model.newpost.PostModel
@@ -78,6 +79,9 @@ fun HomeScreen(
             ) {
                 items(post.size) { index ->
                     PostCard(post = post[index])
+                }
+                item{
+                    PlayAudioPostCard()
                 }
                 item {
                     NotificationPostCard()
