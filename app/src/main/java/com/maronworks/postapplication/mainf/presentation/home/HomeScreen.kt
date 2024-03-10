@@ -23,6 +23,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
+import com.maronworks.postapplication.mainf.data.dummy.callme.CallMePostCard
 import com.maronworks.postapplication.mainf.data.dummy.notification.NotificationPostCard
 import com.maronworks.postapplication.mainf.data.dummy.playaudio.PlayAudioPostCard
 import com.maronworks.postapplication.mainf.data.dummy.sourcecode.SourceCodePostCard
@@ -79,6 +80,9 @@ fun HomeScreen(
             ) {
                 items(post.size) { index ->
                     PostCard(post = post[index])
+                }
+                item{
+                    CallMePostCard()
                 }
                 item{
                     PlayAudioPostCard()
