@@ -16,6 +16,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.MoreVert
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Divider
 import androidx.compose.material3.ElevatedButton
 import androidx.compose.material3.Icon
@@ -154,22 +155,27 @@ fun ProfilePostCard(
             Dialog(onDismissRequest = { profileVM.closeDialog() }) {
                 Card(
                     modifier = Modifier
-                        .padding(10.dp)
+                        .padding(10.dp),
+                    colors = CardDefaults.cardColors(
+                        containerColor = MaterialTheme.colorScheme.secondaryContainer
+                    )
                 ) {
                     Column(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(10.dp),
+                            .padding(start = 10.dp, end = 10.dp, top = 20.dp, bottom = 20.dp),
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
                         ElevatedButton(
                             onClick = { },
                             modifier = Modifier
+                                .fillMaxWidth()
                                 .padding(5.dp)
                         ) {
                             Text(
                                 text = "EDIT",
-                                fontFamily = FontFamily.Monospace
+                                fontFamily = FontFamily.Monospace,
+                                color = MaterialTheme.colorScheme.primary
                             )
                         }
 
@@ -179,11 +185,13 @@ fun ProfilePostCard(
                                 profileVM.closeDialog()
                             },
                             modifier = Modifier
+                                .fillMaxWidth()
                                 .padding(5.dp)
                         ) {
                             Text(
                                 text = "DELETE",
-                                fontFamily = FontFamily.Monospace
+                                fontFamily = FontFamily.Monospace,
+                                color = Color.Red
                             )
                         }
                     }

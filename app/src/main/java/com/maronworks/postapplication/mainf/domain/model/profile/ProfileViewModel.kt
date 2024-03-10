@@ -111,4 +111,28 @@ class ProfileViewModel : ViewModel() {
         }
     }
 
+    // editing the current user on profile screen
+    private var showBottomSheet = mutableStateOf(false)
+
+    fun bottomSheetState(): Boolean {
+        return showBottomSheet.value
+    }
+
+    fun onShowBottomSheetClick() {
+        showBottomSheet.value = true
+    }
+
+    fun toggleShowBottomSheet() {
+        showBottomSheet.value = false
+    }
+
+    fun onUpdateProfile() {
+        // TODO: Implement this!
+        Log.d("update profile", "Updating profile...")
+    }
+
+    fun onDeleteProfile() {
+        // TODO: Implement this!
+        Log.d("delete profile", "Deleting profile...")
+    }
 }
