@@ -1,4 +1,4 @@
-package com.maronworks.postapplication.mainf.domain.model.home.components
+package com.maronworks.postapplication.mainf.presentation.home.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background

@@ -182,9 +182,32 @@ open class DBHandler(context: Context) : SQLiteOpenHelper(context, DB_NAME, null
 
         db.delete(
             POST_TABLE,
-            "$USER_CREATED = ? AND $POST_ID = ?",
-            arrayOf(userCreated, id.toString())
+            "$POST_ID = ? AND $USER_CREATED = ?",
+            arrayOf(id.toString(), userCreated)
         )
     }
 
+    fun readPostWhereUser(username: String): MutableList<PostModel> {
+        val items = mutableListOf<PostModel>()
+        val db = this.readableDatabase
+        val cursor =
+            db.rawQuery("SELECT * FROM $POST_TABLE WHERE $USER_CREATED = ?", arrayOf(username))
+
+        cursor?.let {
+            if (cursor.moveToFirst()) {
+                do {
+                    items.add(
+                        PostModel(
+                            id = cursor.getInt(0),
+                            userCreated = cursor.getString(1),
+                            postContent = cursor.getString(2),
+                            datePosted = cursor.getString(3)
+                        )
+                    )
+                } while (cursor.moveToNext())
+            }
+            cursor.close()
+        }
+        return items
+    }
 }

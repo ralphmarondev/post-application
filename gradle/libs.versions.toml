@@ -10,6 +10,7 @@ lifecycleRuntimeKtx = "2.6.1"
 activityCompose = "1.7.0"
 composeBom = "2023.08.00"
 lifecycleViewmodelCompose = "2.7.0"
+materialIconsExtendedAndroid = "1.6.3"
 navigationCompose = "2.7.7"
 runtimeLivedata = "1.6.2"
 
@@ -17,6 +18,7 @@ runtimeLivedata = "1.6.2"
 androidx-activity-compose-v182 = { module = "androidx.activity:activity-compose", version.ref = "activityComposeVersion" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 androidx-lifecycle-viewmodel-compose = { module = "androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "lifecycleViewmodelCompose" }
+androidx-material-icons-extended-android = { module = "androidx.compose.material:material-icons-extended-android", version.ref = "materialIconsExtendedAndroid" }
 androidx-navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "navigationCompose" }
 androidx-runtime-livedata = { module = "androidx.compose.runtime:runtime-livedata", version.ref = "runtimeLivedata" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
