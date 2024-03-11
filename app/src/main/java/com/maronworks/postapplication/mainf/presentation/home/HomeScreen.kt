@@ -27,6 +27,9 @@ import com.maronworks.postapplication.mainf.data.dummy.callme.CallMePostCard
 import com.maronworks.postapplication.mainf.data.dummy.notification.NotificationPostCard
 import com.maronworks.postapplication.mainf.data.dummy.playaudio.PlayAudioPostCard
 import com.maronworks.postapplication.mainf.data.dummy.sourcecode.SourceCodePostCard
+import com.maronworks.postapplication.mainf.data.dummy.typewritter.TypeWriterPostCard
+import com.maronworks.postapplication.mainf.data.dummy.typewritter.TypeWriterViewModel
+import com.maronworks.postapplication.mainf.data.dummy.writefile.WriteFilePostCard
 import com.maronworks.postapplication.mainf.domain.model.home.HomeViewModel
 import com.maronworks.postapplication.mainf.domain.model.newpost.PostModel
 import com.maronworks.postapplication.mainf.presentation.home.components.PostCard
@@ -81,16 +84,22 @@ fun HomeScreen(
                 items(post.size) { index ->
                     PostCard(post = post[index])
                 }
-                item{
-                    CallMePostCard()
+                item {
+                    TypeWriterPostCard()
                 }
                 item{
+                    WriteFilePostCard()
+                }
+                item {
+                    CallMePostCard()
+                }
+                item {
                     PlayAudioPostCard()
                 }
                 item {
                     NotificationPostCard()
                 }
-                item{
+                item {
                     SourceCodePostCard()
                 }
                 // padding on the bottom
