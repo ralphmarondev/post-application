@@ -8,7 +8,7 @@ import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.ViewModel
-import com.maronworks.postapplication.core.db.DBHandler
+import com.maronworks.postapplication.core.data.db.DBHandler
 import com.maronworks.postapplication.mainf.domain.model.newpost.PostModel
 
 class ProfileViewModel : ViewModel() {

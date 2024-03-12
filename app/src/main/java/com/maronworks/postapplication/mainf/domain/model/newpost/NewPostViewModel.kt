@@ -4,7 +4,7 @@ import android.content.Context
 import android.util.Log
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
-import com.maronworks.postapplication.core.db.DBHandler
+import com.maronworks.postapplication.core.data.db.DBHandler
 import com.maronworks.postapplication.mainf.domain.util.getCurrentDateTime
 
 class NewPostViewModel : ViewModel() {

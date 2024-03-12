@@ -1,10 +1,10 @@
-package com.maronworks.postapplication.core.db
+package com.maronworks.postapplication.core.data.db
 
 import android.content.ContentValues
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
-import com.maronworks.postapplication.core.model.user.UserModel
+import com.maronworks.postapplication.core.domain.model.user.UserModel
 import com.maronworks.postapplication.mainf.domain.model.newpost.PostModel
 
 open class DBHandler(context: Context) : SQLiteOpenHelper(context, DB_NAME, null, DB_VERSION) {

@@ -7,7 +7,7 @@ import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.navigation.NavHostController
-import com.maronworks.postapplication.core.db.DBHandler
+import com.maronworks.postapplication.core.data.db.DBHandler
 import com.maronworks.postapplication.core.navigation.Screens
 
 class LoginViewModel : ViewModel() {

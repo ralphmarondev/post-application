@@ -15,7 +15,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.lifecycle.ViewModel
 import androidx.navigation.NavHostController
-import com.maronworks.postapplication.core.db.DBHandler
+import com.maronworks.postapplication.core.data.db.DBHandler
 import com.maronworks.postapplication.mainf.domain.model.newpost.PostModel
 
 class HomeViewModel : ViewModel() {
