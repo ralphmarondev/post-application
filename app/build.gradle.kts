@@ -11,8 +11,8 @@ android {
         applicationId = "com.maronworks.postapplication"
         minSdk = 28
         targetSdk = 34
-        versionCode = 1
-        versionName = "2024.03.07"
+        versionCode = 2
+        versionName = "v_2.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -59,10 +59,14 @@ dependencies {
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
+
+    // navigation
     implementation(libs.androidx.navigation.compose)
-    implementation(libs.androidx.lifecycle.viewmodel.compose)
-    implementation(libs.androidx.activity.compose.v182)
-    implementation(libs.androidx.runtime.livedata)
+    // extended-icons
+    implementation(libs.androidx.material.icons.extended.android)
+    // datastore
+    implementation(libs.androidx.datastore.preferences)
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
