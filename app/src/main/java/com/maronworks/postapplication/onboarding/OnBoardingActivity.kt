@@ -17,7 +17,9 @@ import androidx.compose.ui.unit.sp
 import com.maronworks.postapplication.ui.theme.PostApplicationTheme
 
 @Composable
-fun OnBoardingActivity() {
+fun OnBoardingActivity(
+    onGetStarted: () -> Unit,
+) {
     Box(
         modifier = Modifier
             .fillMaxSize(),
@@ -30,7 +32,7 @@ fun OnBoardingActivity() {
         )
 
         ElevatedButton(
-            onClick = { /*TODO*/ },
+            onClick = onGetStarted,
             modifier = Modifier
                 .padding(15.dp)
                 .align(Alignment.BottomEnd)
@@ -53,7 +55,9 @@ private fun OnBoardingPreview() {
                 .fillMaxSize(),
             color = MaterialTheme.colorScheme.background
         ) {
-            OnBoardingActivity()
+            OnBoardingActivity(
+                onGetStarted = {}
+            )
         }
     }
 }
