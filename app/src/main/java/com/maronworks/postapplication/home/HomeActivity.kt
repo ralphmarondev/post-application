@@ -1,6 +1,7 @@
 package com.maronworks.postapplication.home
 
 import android.annotation.SuppressLint
+import android.content.Context
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
@@ -20,6 +21,7 @@ import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -33,8 +35,10 @@ import com.maronworks.postapplication.home.features.profile.Profile
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun HomeActivity(
+    context: Context = LocalContext.current,
     navController: NavHostController = rememberNavController(),
 ) {
+    val viewModel = HomeViewModel(context)
     var selectedScreen by remember { mutableIntStateOf(0) }
 
     Scaffold(
@@ -90,10 +94,22 @@ fun HomeActivity(
             startDestination = HomeNavScreen.Home.route
         ) {
             composable(HomeNavScreen.Home.route) {
-                Home()
+                Home(viewModel = viewModel)
             }
             composable(HomeNavScreen.NewPost.route) {
-                NewPost()
+                NewPost(
+                    viewModel = viewModel,
+                    onPost = {
+                        selectedScreen = 0
+                        navController.popBackStack()
+                        navController.navigate(HomeNavScreen.Home.route)
+                    },
+                    onCancel = {
+                        selectedScreen = 0
+                        navController.popBackStack()
+                        navController.navigate(HomeNavScreen.Home.route)
+                    }
+                )
             }
             composable(HomeNavScreen.Profile.route) {
                 Profile()
