@@ -4,5 +4,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 
 class MainViewModel: ViewModel() {
-    var currentUser= mutableStateOf("")
+    var currentUser= mutableStateOf("username")
+    var currentFullName = mutableStateOf("Full Name")
 }

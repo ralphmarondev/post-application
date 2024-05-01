@@ -126,7 +126,10 @@ fun HomeActivity(
                 )
             }
             composable(HomeNavScreen.Profile.route) {
-                Profile()
+                Profile(
+                    mainVM = mainVM,
+                    viewModel = viewModel
+                )
             }
         }
     }
