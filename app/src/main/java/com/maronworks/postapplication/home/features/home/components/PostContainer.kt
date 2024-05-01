@@ -58,7 +58,7 @@ fun PostContainer(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Image(
-                    painter = painterResource(id = R.drawable.sample_image),
+                    painter = painterResource(id = post.ownerPicture),
                     contentDescription = "",
                     modifier = Modifier
                         .size(45.dp)
@@ -67,7 +67,7 @@ fun PostContainer(
                 )
 
                 Spacer(modifier = Modifier.padding(10.dp))
-                Text(text = "username")
+                Text(text = post.ownerName)
 
                 Spacer(
                     modifier = Modifier

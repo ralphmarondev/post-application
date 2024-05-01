@@ -42,8 +42,7 @@ fun NewPost(
     onPost: () -> Unit,
     onCancel: () -> Unit,
 ) {
-    var title by remember { mutableStateOf("") }
-    var description by remember { mutableStateOf("") }
+    var postContent by remember { mutableStateOf("") }
 
     Scaffold(
         topBar = {
@@ -58,7 +57,7 @@ fun NewPost(
                     TextButton(
                         onClick = {
                             onPost()
-                            viewModel.onPost()
+                            viewModel.onPost(postContent = postContent)
                         }
                     ) {
                         Text(
@@ -100,28 +99,17 @@ fun NewPost(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(vertical = 5.dp, horizontal = 15.dp),
-                    value = title,
-                    onValueChange = { title = it },
-                    maxLines = 1,
-                    placeHolder = "Title..."
-                )
-            }
-            item {
-                TextFieldComponent(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(vertical = 5.dp, horizontal = 15.dp),
-                    value = description,
-                    onValueChange = { description = it },
+                    value = postContent,
+                    onValueChange = { postContent = it },
                     minLines = 8,
-                    placeHolder = "Description..."
+                    placeHolder = "What is the best thing happened today..."
                 )
             }
         }
     }
 }
 
-@Preview
+@Preview(showBackground = true, showSystemUi = true)
 @Composable
 private fun NewPostPreview() {
     PostApplicationTheme {

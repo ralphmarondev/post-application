@@ -94,7 +94,10 @@ fun HomeActivity(
             startDestination = HomeNavScreen.Home.route
         ) {
             composable(HomeNavScreen.Home.route) {
-                Home(viewModel = viewModel)
+                Home(
+                    viewModel = viewModel,
+                    posts = viewModel.getAllPost()
+                )
             }
             composable(HomeNavScreen.NewPost.route) {
                 NewPost(
