@@ -30,6 +30,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.maronworks.postapplication.MainViewModel
 import com.maronworks.postapplication.home.HomeViewModel
 import com.maronworks.postapplication.home.features.new_post.component.TextFieldComponent
 import com.maronworks.postapplication.ui.theme.PostApplicationTheme
@@ -118,7 +119,7 @@ private fun NewPostPreview() {
                 .fillMaxSize(),
             color = MaterialTheme.colorScheme.background
         ) {
-            NewPost(viewModel = HomeViewModel(LocalContext.current),
+            NewPost(viewModel = HomeViewModel(LocalContext.current, MainViewModel()),
                 onPost = { /*TODO*/ }) {
             }
         }

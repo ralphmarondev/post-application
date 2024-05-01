@@ -7,6 +7,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.maronworks.postapplication.MainViewModel
 import com.maronworks.postapplication.authentication.LoginSignUpActivity
 import com.maronworks.postapplication.core.local.preferences.SharedPreferenceManager
 import com.maronworks.postapplication.home.HomeActivity
@@ -20,6 +21,7 @@ fun AppNavigation(
     val preference = SharedPreferenceManager(context)
     val startDestination =
         if (preference.isFirstLaunch()) Screen.OnBoarding.route else Screen.Auth.route
+    val mainVM = MainViewModel()
 
     NavHost(
         navController = navController,
@@ -36,6 +38,7 @@ fun AppNavigation(
         }
         composable(Screen.Auth.route) {
             LoginSignUpActivity(
+                mainVM = mainVM,
                 onLogin = {
                     navController.popBackStack()
                     navController.navigate(Screen.Home.route)
@@ -43,7 +46,7 @@ fun AppNavigation(
             )
         }
         composable(Screen.Home.route) {
-            HomeActivity()
+            HomeActivity(mainVM = mainVM)
         }
     }
 }

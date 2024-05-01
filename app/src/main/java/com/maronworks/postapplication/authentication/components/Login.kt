@@ -40,6 +40,7 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.maronworks.postapplication.MainViewModel
 import com.maronworks.postapplication.authentication.LoginSignUpViewModel
 import com.maronworks.postapplication.ui.theme.PostApplicationTheme
 import kotlinx.coroutines.CoroutineScope
@@ -51,6 +52,7 @@ fun Login(
     scope: CoroutineScope,
     snackbarHostState: SnackbarHostState,
     onLogin: () -> Unit,
+    mainVM: MainViewModel,
 ) {
     var username by rememberSaveable {
         mutableStateOf("")
@@ -138,6 +140,11 @@ fun Login(
             onClick = {
                 if (username.isNotEmpty() && password.isNotEmpty()) {
                     if (viewModel.onLogin(username, password)) {
+
+                        // setting the current user
+                        // TODO: Implement a better approach for this
+                        mainVM.currentUser.value = username
+
                         onLogin()
                         Log.d("hello", "Logged in successfully.")
                     } else {
@@ -217,7 +224,8 @@ private fun LoginPreview() {
                 viewModel = LoginSignUpViewModel(LocalContext.current),
                 scope = rememberCoroutineScope(),
                 snackbarHostState = snackbarHostState,
-                onLogin = {}
+                onLogin = {},
+                mainVM = MainViewModel()
             )
         }
     }

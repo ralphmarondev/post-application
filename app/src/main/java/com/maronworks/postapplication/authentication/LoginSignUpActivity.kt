@@ -14,16 +14,14 @@ import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.maronworks.postapplication.MainViewModel
 import com.maronworks.postapplication.authentication.components.Login
 import com.maronworks.postapplication.authentication.components.Register
 import com.maronworks.postapplication.ui.theme.PostApplicationTheme
@@ -36,6 +34,7 @@ fun LoginSignUpActivity(
     context: Context = LocalContext.current,
     scope: CoroutineScope = rememberCoroutineScope(),
     onLogin: () -> Unit,
+    mainVM: MainViewModel,
 ) {
     val viewModel = LoginSignUpViewModel(context)
 
@@ -63,7 +62,8 @@ fun LoginSignUpActivity(
                         onLogin = onLogin,
                         scope = scope,
                         snackbarHostState = snackBarState,
-                        viewModel = viewModel
+                        viewModel = viewModel,
+                        mainVM = mainVM
                     )
 
                     1 -> Register(
@@ -85,9 +85,10 @@ private fun LoginSignUpPreview() {
                 .fillMaxSize(),
             color = MaterialTheme.colorScheme.background
         ) {
-            LoginSignUpActivity {
-
-            }
+            LoginSignUpActivity(
+                mainVM = MainViewModel(),
+                onLogin = {}
+            )
         }
     }
 }

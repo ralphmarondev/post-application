@@ -5,6 +5,7 @@ import android.content.Context
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
+import com.maronworks.postapplication.MainViewModel
 import com.maronworks.postapplication.R
 import com.maronworks.postapplication.core.util.debugLog
 import com.maronworks.postapplication.home.data.local.db.DBHandler
@@ -12,15 +13,20 @@ import com.maronworks.postapplication.home.domain.post.PostModel
 import com.maronworks.postapplication.home.util.getCurrentDateAndTime
 
 @SuppressLint("StaticFieldLeak")
-class HomeViewModel(private val context: Context) : ViewModel() {
+class HomeViewModel(private val context: Context, mainVM: MainViewModel) : ViewModel() {
     var isDarkTheme = mutableStateOf(false)
-    var currentUser = mutableStateOf("default_user")
+    var currentUser = mutableStateOf(mainVM.currentUser.value)
     var currentUserPicture = mutableIntStateOf(R.drawable.sample_image)
 
     fun onDarkTheme() {
         isDarkTheme.value = !isDarkTheme.value
 
         // TODO: change the theme
+        debugLog("Current user: ${currentUser.value}")
+    }
+
+    fun setCurrentUser(user: String) {
+        currentUser.value = user
     }
 
     fun onPost(postContent: String) {

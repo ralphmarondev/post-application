@@ -16,6 +16,7 @@ import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
@@ -26,6 +27,8 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.maronworks.postapplication.MainViewModel
+import com.maronworks.postapplication.core.util.debugLog
 import com.maronworks.postapplication.home.domain.navItem.NavItemModel
 import com.maronworks.postapplication.home.domain.screen.HomeNavScreen
 import com.maronworks.postapplication.home.features.home.Home
@@ -37,9 +40,16 @@ import com.maronworks.postapplication.home.features.profile.Profile
 fun HomeActivity(
     context: Context = LocalContext.current,
     navController: NavHostController = rememberNavController(),
+    mainVM: MainViewModel,
 ) {
-    val viewModel = HomeViewModel(context)
+    val viewModel = HomeViewModel(context, mainVM)
     var selectedScreen by remember { mutableIntStateOf(0) }
+
+    // set the current user here
+    LaunchedEffect(key1 = true) {
+        viewModel.setCurrentUser(mainVM.currentUser.value)
+        debugLog("Current user [home]: ${mainVM.currentUser.value}")
+    }
 
     Scaffold(
         bottomBar = {
@@ -98,6 +108,7 @@ fun HomeActivity(
                     viewModel = viewModel,
                     posts = viewModel.getAllPost()
                 )
+                debugLog("Current user [home1]: ${mainVM.currentUser.value}")
             }
             composable(HomeNavScreen.NewPost.route) {
                 NewPost(
