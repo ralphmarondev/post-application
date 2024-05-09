@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="App.Starting.Theme" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">#ffff</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/compose</item>
+        <item name="postSplashScreenTheme">@style/Theme.PostApplication</item>
+    </style>
+
+</resources>
