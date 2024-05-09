@@ -1,6 +1,6 @@
 plugins {
-    alias(libs.plugins.androidApplication)
-    alias(libs.plugins.jetbrainsKotlinAndroid)
+    alias(libs.plugins.android.application)
+    alias(libs.plugins.jetbrains.kotlin.android)
 }
 
 android {
@@ -11,8 +11,8 @@ android {
         applicationId = "com.maronworks.postapplication"
         minSdk = 28
         targetSdk = 34
-        versionCode = 2
-        versionName = "v_2.0"
+        versionCode = 3
+        versionName = "24.05.9"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -62,10 +62,8 @@ dependencies {
 
     // navigation
     implementation(libs.androidx.navigation.compose)
-    // extended-icons
+    // extended-icon
     implementation(libs.androidx.material.icons.extended.android)
-    // datastore
-    implementation(libs.androidx.datastore.preferences)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

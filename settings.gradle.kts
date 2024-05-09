@@ -21,4 +21,3 @@ dependencyResolutionManagement {
 
 rootProject.name = "Post Application"
 include(":app")
- 
