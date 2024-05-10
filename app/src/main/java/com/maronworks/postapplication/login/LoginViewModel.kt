@@ -25,9 +25,12 @@ class LoginViewModel : ViewModel() {
             val db = DBHandler(context)
 
             Log.d("db", "isUserExists(${user.username} ${user.password}): ${db.isUserExist(user)}")
-            return db.isUserExist(user)
+            if (db.isUserExist(user))
+                return true
+            else
+                return false
         } catch (ex: Exception) {
-            Log.d("db", "Error: ")
+            Log.d("db", "Error: ${ex.message}")
             return false
         }
     }

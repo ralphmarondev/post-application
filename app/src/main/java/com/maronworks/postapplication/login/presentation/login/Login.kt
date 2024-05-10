@@ -78,20 +78,29 @@ fun Login(
             onClick = {
                 if (username.isEmpty() && password.isEmpty()) {
                     snackBarMsg = "Username and password is empty!"
+                    scope.launch {
+                        snackBarState.showSnackbar(snackBarMsg)
+                    }
                 } else if (username.isEmpty() && password.isNotEmpty()) {
                     snackBarMsg = "Username cannot be empty."
+                    scope.launch {
+                        snackBarState.showSnackbar(snackBarMsg)
+                    }
                 } else if (username.isNotEmpty() && password.isEmpty()) {
                     snackBarMsg = "Password is empty"
+                    scope.launch {
+                        snackBarState.showSnackbar(snackBarMsg)
+                    }
                 } else {
                     if (viewModel.isUserExists(context, user = UserModel(username, password))) {
                         onLogin()
-                        snackBarMsg = "Login successful!"
+//                        snackBarMsg = "Login successful!"
                     } else {
                         snackBarMsg = "Incorrect Password. Please try again."
+                        scope.launch {
+                            snackBarState.showSnackbar(snackBarMsg)
+                        }
                     }
-                }
-                scope.launch {
-                    snackBarState.showSnackbar(snackBarMsg)
                 }
             }
         )

@@ -46,7 +46,9 @@ import com.maronworks.postapplication.ui.theme.PostApplicationTheme
 @OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun LoginScreen() {
+fun LoginScreen(
+    onLogin: () -> Unit
+) {
     var isDarkTheme by remember {
         mutableStateOf(false)
     }
@@ -130,7 +132,7 @@ fun LoginScreen() {
                             scope = scope,
                             viewModel = viewModel,
                             snackBarState = snackBarState,
-                            onLogin = {}
+                            onLogin = { onLogin() }
                         )
                     }
 
@@ -142,7 +144,9 @@ fun LoginScreen() {
                             scope = scope,
                             viewModel = viewModel,
                             snackBarState = snackBarState,
-                            onRegister = {}
+                            onRegister = {
+                                selectedTabIndex = TabIndex.LOGIN
+                            }
                         )
                     }
                 }
@@ -160,7 +164,7 @@ private fun LoginScreenPreview() {
                 .fillMaxSize(),
             color = MaterialTheme.colorScheme.background
         ) {
-            LoginScreen()
+            LoginScreen(onLogin = {})
         }
     }
 }

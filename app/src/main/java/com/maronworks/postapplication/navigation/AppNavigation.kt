@@ -7,6 +7,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.maronworks.postapplication.home.HomeScreen
 import com.maronworks.postapplication.login.LoginScreen
 import com.maronworks.postapplication.navigation.data.local.preferences.SharedPreferencesManager
 import com.maronworks.postapplication.navigation.model.Screen
@@ -36,10 +37,15 @@ fun AppNavigation(
             )
         }
         composable(Screen.Login.route) {
-            LoginScreen()
+            LoginScreen(
+                onLogin = {
+                    navController.popBackStack()
+                    navController.navigate(Screen.Home.route)
+                }
+            )
         }
         composable(Screen.Home.route) {
-
+            HomeScreen()
         }
     }
 }
