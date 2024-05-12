@@ -57,7 +57,12 @@ fun NewPost(
                     }
                 },
                 actions = {
-                    TextButton(onClick = { /*TODO*/ }) {
+                    TextButton(
+                        onClick = {
+                            // save_to_db()
+                            onBack()
+                        }
+                    ) {
                         Text(
                             text = "POST",
                             fontFamily = FontFamily.Monospace,

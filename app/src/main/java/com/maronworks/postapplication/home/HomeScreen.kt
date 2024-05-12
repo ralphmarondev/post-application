@@ -3,7 +3,6 @@ package com.maronworks.postapplication.home
 import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.Home
@@ -93,13 +92,12 @@ fun HomeScreen() {
 
             }
         }
-    ) { innerPadding ->
+    ) {
         NavHost(
             navController = navController,
             startDestination = Screen.Feed.route,
             modifier = Modifier
                 .fillMaxSize()
-                .padding(innerPadding)
         ) {
             composable(Screen.Feed.route) {
                 Feed()
@@ -107,6 +105,7 @@ fun HomeScreen() {
             composable(Screen.NewPost.route) {
                 NewPost(
                     onBack = {
+                        selectedIndex = BottomBarIndex.FEED
                         navController.popBackStack()
                         navController.navigate(Screen.Feed.route)
                     }
