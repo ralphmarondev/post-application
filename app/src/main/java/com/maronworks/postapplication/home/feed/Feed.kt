@@ -106,6 +106,12 @@ fun Feed() {
                         .defaultMinSize(minHeight = 500.dp)
                         .padding(start = 15.dp, end = 15.dp, top = 20.dp, bottom = 150.dp)
                 ) {
+                    Text(
+                        text = "Not Implemented Yet",
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(5.dp)
+                    )
                     repeat(2) {
                         ElevatedCard(
                             onClick = { /*TODO*/ },

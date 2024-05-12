@@ -37,6 +37,7 @@ import com.maronworks.postapplication.ui.theme.PostApplicationTheme
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun HomeScreen() {
+    val viewModel = HomeViewModel()
     val navController = rememberNavController()
     var selectedIndex by remember { mutableIntStateOf(BottomBarIndex.FEED) }
 
@@ -104,6 +105,7 @@ fun HomeScreen() {
             }
             composable(Screen.NewPost.route) {
                 NewPost(
+                    viewModel = viewModel,
                     onBack = {
                         selectedIndex = BottomBarIndex.FEED
                         navController.popBackStack()

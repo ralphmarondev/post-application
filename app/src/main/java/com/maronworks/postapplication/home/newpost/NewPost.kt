@@ -1,6 +1,9 @@
 package com.maronworks.postapplication.home.newpost
 
 import android.annotation.SuppressLint
+import android.content.Context
+import android.util.Log
+import android.widget.Toast
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -23,22 +26,24 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.maronworks.postapplication.home.HomeViewModel
 import com.maronworks.postapplication.home.newpost.components.DetailTextField
-import com.maronworks.postapplication.home.newpost.components.TitleTextField
 import com.maronworks.postapplication.ui.theme.PostApplicationTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun NewPost(
+    context: Context = LocalContext.current,
+    viewModel: HomeViewModel,
     onBack: () -> Unit
 ) {
-    var postTitle by remember { mutableStateOf("") }
     var postContent by remember { mutableStateOf("") }
 
 
@@ -59,8 +64,14 @@ fun NewPost(
                 actions = {
                     TextButton(
                         onClick = {
-                            // save_to_db()
-                            onBack()
+                            try {
+                                viewModel.createNewPost(context, postContent)
+                                onBack()
+                            } catch (ex: Exception) {
+                                Log.d("db", "Error posting: ${ex.message}")
+                                Toast.makeText(context, "Error in posting...", Toast.LENGTH_SHORT)
+                                    .show()
+                            }
                         }
                     ) {
                         Text(
@@ -85,15 +96,7 @@ fun NewPost(
                 .fillMaxSize()
                 .padding(innerPadding)
         ) {
-            item {
-                TitleTextField(
-                    value = postTitle,
-                    onValueChange = { postTitle = it },
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 15.dp, vertical = 5.dp)
-                )
-            }
+
             item {
                 DetailTextField(
                     value = postContent,
