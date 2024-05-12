@@ -66,6 +66,7 @@ fun PostCard(
     ElevatedCard(
         modifier = modifier
     ) {
+        // ACCOUNT WHO POSTED IT
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -111,6 +112,8 @@ fun PostCard(
             modifier = Modifier
                 .padding(5.dp)
         )
+
+        // POST CONTENTS
         Column(
             modifier = Modifier
                 .fillMaxWidth()
@@ -126,6 +129,7 @@ fun PostCard(
         }
         Divider(modifier = Modifier.padding(5.dp))
 
+        // REACTION BUTTONS
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -134,67 +138,76 @@ fun PostCard(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
+            var liked by remember { mutableStateOf(false) }
+            var comment by remember { mutableStateOf(false) }
+            var share by remember { mutableStateOf(false) }
+            var bookmark by remember { mutableStateOf(false) }
+
             val listOfIcons = listOf(
                 IconModel(
+                    value = liked,
                     defaultIcon = Icons.Outlined.FavoriteBorder,
                     selectedIcon = Icons.Filled.Favorite,
-                    onClick = {}
+                    onClickedChanged = { liked = !liked }
                 ),
                 IconModel(
+                    value = comment,
                     defaultIcon = Icons.Outlined.AddComment,
                     selectedIcon = Icons.Filled.AddComment,
-                    onClick = {}
+                    onClickedChanged = { comment = !comment }
                 ),
                 IconModel(
+                    value = share,
                     defaultIcon = Icons.Outlined.IosShare,
                     selectedIcon = Icons.Filled.IosShare,
-                    onClick = {}
+                    onClickedChanged = { share = !share }
                 ),
                 IconModel(
+                    value = bookmark,
                     defaultIcon = Icons.Outlined.BookmarkAdd,
                     selectedIcon = Icons.Filled.BookmarkAdd,
-                    onClick = {}
+                    onClickedChanged = { bookmark = !bookmark }
                 )
             )
 
-            listOfIcons.forEachIndexed { _, iconModel ->
-                IconButton(onClick = { /*TODO*/ }) {
-                    Icon(
-                        imageVector = iconModel.defaultIcon,
-                        contentDescription = ""
-                    )
-                }
+            listOfIcons.forEachIndexed { _, item ->
+                IconButtonComponent(
+                    clicked = item.value,
+                    defaultIcon = item.defaultIcon,
+                    selectedIcon = item.selectedIcon,
+                    onClickedChanged = item.onClickedChanged
+                )
             }
         }
     }
 }
 
 private data class IconModel(
+    val value: Boolean,
     val defaultIcon: ImageVector,
     val selectedIcon: ImageVector,
-    val onClick: () -> Unit
+    val onClickedChanged: (Boolean) -> Unit
 )
 
 @Composable
 private fun IconButtonComponent(
     modifier: Modifier = Modifier,
-    active: Boolean,
-    onClick: (Boolean) -> Unit,
-    imageVector: IconModel
+    clicked: Boolean,
+    defaultIcon: ImageVector,
+    selectedIcon: ImageVector,
+    onClickedChanged: (Boolean) -> Unit
 ) {
     IconButton(
-        onClick = {
-            active != active
-            onClick(active)
-        },
+        onClick = { onClickedChanged(clicked) },
         modifier = modifier
     ) {
         Icon(
-            imageVector = if (active) imageVector.selectedIcon else imageVector.defaultIcon,
+            imageVector = if (clicked) selectedIcon else defaultIcon,
             contentDescription = ""
         )
     }
 }
+
 
 @Preview(showSystemUi = true, showBackground = true)
 @Composable
@@ -202,7 +215,7 @@ private fun PostCardPreview() {
     val post = PostModel(
         name = "Ralph Maron Eda",
         image = R.drawable.cute_me,
-        post = "Hello there, Ralph Maron Eda is here. He is a compute Enigneering student is passionate in learning new technologies. He likes mobile development, so as web development. He is also interested in machine learning and artificial intelligence.",
+        post = "Hello there, Ralph Maron Eda is here. He is a compute Engineering student is passionate in learning new technologies. He likes mobile development, so as web development. He is also interested in machine learning and artificial intelligence.",
         date = "2024-05-11 | 7:58"
     )
     PostApplicationTheme {
