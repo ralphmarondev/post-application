@@ -21,3 +21,7 @@ dependencyResolutionManagement {
 
 rootProject.name = "Post Application"
 include(":app")
+include(":authentication")
+include(":home")
+include(":onboarding")
+include(":core")

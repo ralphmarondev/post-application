@@ -67,6 +67,12 @@ dependencies {
     // extended-icon
     implementation(libs.androidx.material.icons.extended.android)
 
+    // libraries ralphmaron created
+    implementation(project(":core"))
+    implementation(project(":onboarding"))
+    implementation(project(":authentication"))
+    implementation(project(":home"))
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

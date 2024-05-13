@@ -9,7 +9,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import com.maronworks.postapplication.navigation.AppNavigation
 import com.maronworks.postapplication.ui.theme.PostApplicationTheme
 
 class MainActivity : ComponentActivity() {
@@ -24,7 +23,11 @@ class MainActivity : ComponentActivity() {
                         .fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    AppNavigation()
+                    AppNavigation(
+                        onFinish = {
+                            finish()
+                        }
+                    )
                 }
             }
         }
