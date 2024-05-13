@@ -1,6 +1,7 @@
 package com.maronworks.postapplication.home
 
 import android.annotation.SuppressLint
+import android.content.Context
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.icons.Icons
@@ -23,6 +24,7 @@ import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -36,7 +38,9 @@ import com.maronworks.postapplication.ui.theme.PostApplicationTheme
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun HomeScreen() {
+fun HomeScreen(
+    context: Context = LocalContext.current
+) {
     val viewModel = HomeViewModel()
     val navController = rememberNavController()
     var selectedIndex by remember { mutableIntStateOf(BottomBarIndex.FEED) }
@@ -101,7 +105,9 @@ fun HomeScreen() {
                 .fillMaxSize()
         ) {
             composable(Screen.Feed.route) {
-                Feed()
+                Feed(
+                    posts = viewModel.readAllPosts(context)
+                )
             }
             composable(Screen.NewPost.route) {
                 NewPost(

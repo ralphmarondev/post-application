@@ -1,6 +1,7 @@
 package com.maronworks.postapplication.home
 
 import android.content.Context
+import android.util.Log
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
@@ -24,5 +25,20 @@ class HomeViewModel : ViewModel() {
                 dateAdded = currentDate.value
             )
         )
+    }
+
+    fun readAllPosts(context: Context): MutableList<PostModel> {
+        val listOfPosts = mutableListOf<PostModel>()
+
+        try {
+            val db = DBHandler(context)
+
+            listOfPosts.clear()
+            listOfPosts.addAll(db.readPosts())
+            listOfPosts.reverse()
+        } catch (ex: Exception) {
+            Log.d("db", "Error reading: ${ex.message}")
+        }
+        return listOfPosts
     }
 }

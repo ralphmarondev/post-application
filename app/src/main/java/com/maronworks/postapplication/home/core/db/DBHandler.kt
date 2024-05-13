@@ -8,7 +8,7 @@ import com.maronworks.postapplication.core.model.dbconfig.DBConfig
 import com.maronworks.postapplication.home.core.domain.post.PostModel
 
 class DBHandler(context: Context) :
-    SQLiteOpenHelper(context, "posts_db", null, DBConfig.DB_VERSION) {
+    SQLiteOpenHelper(context, "posts_db2", null, 4) {
     companion object {
         private const val TABLE_POST = "posts"
         private const val COL_POST_ID = "post_id"
@@ -36,5 +36,30 @@ class DBHandler(context: Context) :
         values.put(COL_DATE_ADDED, post.dateAdded)
 
         db.insert(TABLE_POST, null, values)
+    }
+
+    fun readPosts(): MutableList<PostModel> {
+        val posts = mutableListOf<PostModel>()
+        val db = this.readableDatabase
+        val cursor = db.rawQuery("SELECT * FROM $TABLE_POST", null)
+
+        cursor.let {
+            if (cursor.moveToFirst()) {
+                do {
+                    posts.add(
+                        PostModel(
+                            id = cursor.getInt(0),
+                            username = cursor.getString(1),
+                            userImage = cursor.getInt(2),
+                            postContent = cursor.getString(3),
+                            dateAdded = cursor.getString(4)
+                        )
+                    )
+
+                } while (cursor.moveToNext())
+            }
+            cursor.close()
+        }
+        return posts
     }
 }

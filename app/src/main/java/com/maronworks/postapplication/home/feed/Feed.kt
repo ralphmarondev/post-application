@@ -30,13 +30,15 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.maronworks.postapplication.R
+import com.maronworks.postapplication.home.core.domain.post.PostModel
 import com.maronworks.postapplication.home.feed.components.PostCard
-import com.maronworks.postapplication.home.model.post.PostModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun Feed() {
+fun Feed(
+    posts: MutableList<PostModel>
+) {
     var showBottomSheet by remember { mutableStateOf(false) }
 
     Scaffold(
@@ -76,12 +78,24 @@ fun Feed() {
             item {
                 Spacer(modifier = Modifier.height(10.dp))
             }
+            items(posts.size){
+                PostCard(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 15.dp, vertical = 5.dp),
+                    post = posts[it],
+                    onMore = {
+                        // open bottom sheet
+                        showBottomSheet = !showBottomSheet
+                    }
+                )
+            }
             items(2) {
                 val post = PostModel(
-                    name = "Ralph Maron Eda",
-                    image = R.drawable.cute_me,
-                    post = "Hello there, Ralph Maron Eda is here. He is a compute Engineering student is passionate in learning new technologies. He likes mobile development, so as web development. He is also interested in machine learning and artificial intelligence.",
-                    date = "2024-05-11 | 7:58"
+                    username = "Ralph Maron Eda",
+                    userImage = R.drawable.cute_me,
+                    postContent = "Hello there, Ralph Maron Eda is here. He is a compute Engineering student is passionate in learning new technologies. He likes mobile development, so as web development. He is also interested in machine learning and artificial intelligence.",
+                    dateAdded = "2024-05-11 | 7:58"
                 )
                 PostCard(
                     modifier = Modifier
