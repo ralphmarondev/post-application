@@ -3,7 +3,6 @@ package com.maronworks.postapplication.home
 import android.annotation.SuppressLint
 import android.content.Context
 import android.util.Log
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
@@ -18,7 +17,6 @@ import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
@@ -30,19 +28,21 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.maronworks.postapplication.core.data.preferences.SharedPreferencesManager
 import com.maronworks.postapplication.home.feed.Feed
 import com.maronworks.postapplication.home.model.nav_icon.NavIconModel
 import com.maronworks.postapplication.home.model.screen.Screen
 import com.maronworks.postapplication.home.newpost.NewPost
+import com.maronworks.postapplication.home.profile.Profile
 import com.maronworks.postapplication.home.util.BottomBarIndex
-import com.maronworks.postapplication.core.data.preferences.SharedPreferencesManager
 import com.maronworks.postapplication.ui.theme.PostApplicationTheme
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun HomeScreen(
     context: Context = LocalContext.current,
-    pref: SharedPreferencesManager
+    pref: SharedPreferencesManager,
+    onLogout: () -> Unit
 ) {
     val viewModel = HomeViewModel(pref)
     val navController = rememberNavController()
@@ -125,9 +125,10 @@ fun HomeScreen(
                 )
             }
             composable(Screen.Profile.route) {
-                Box(modifier = Modifier.fillMaxSize()) {
-                    Text(text = "Profile")
-                }
+                Profile(
+                    pref = pref,
+                    onLogout = onLogout
+                )
             }
         }
     }
@@ -142,7 +143,10 @@ private fun HomeScreenPreview() {
                 .fillMaxSize(),
             color = MaterialTheme.colorScheme.background
         ) {
-            HomeScreen(pref = SharedPreferencesManager(LocalContext.current))
+            HomeScreen(
+                pref = SharedPreferencesManager(LocalContext.current),
+                onLogout = {}
+            )
         }
     }
 }

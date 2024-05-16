@@ -47,7 +47,11 @@ fun AppNavigation(
         }
         composable(Screen.Home.route) {
             HomeScreen(
-                pref = pref
+                pref = pref,
+                onLogout = {
+                    navController.popBackStack()
+                    navController.navigate(Screen.Login.route)
+                }
             )
         }
     }
