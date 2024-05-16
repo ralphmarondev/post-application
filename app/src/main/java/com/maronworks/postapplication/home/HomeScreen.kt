@@ -2,6 +2,7 @@ package com.maronworks.postapplication.home
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.util.Log
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.icons.Icons
@@ -34,17 +35,20 @@ import com.maronworks.postapplication.home.model.nav_icon.NavIconModel
 import com.maronworks.postapplication.home.model.screen.Screen
 import com.maronworks.postapplication.home.newpost.NewPost
 import com.maronworks.postapplication.home.util.BottomBarIndex
+import com.maronworks.postapplication.core.data.preferences.SharedPreferencesManager
 import com.maronworks.postapplication.ui.theme.PostApplicationTheme
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun HomeScreen(
-    context: Context = LocalContext.current
+    context: Context = LocalContext.current,
+    pref: SharedPreferencesManager
 ) {
-    val viewModel = HomeViewModel()
+    val viewModel = HomeViewModel(pref)
     val navController = rememberNavController()
     var selectedIndex by remember { mutableIntStateOf(BottomBarIndex.FEED) }
 
+    Log.d("pref", "Current user: ${pref.getCurrentUser()}")
     Scaffold(
         modifier = Modifier
             .fillMaxSize(),
@@ -106,6 +110,7 @@ fun HomeScreen(
         ) {
             composable(Screen.Feed.route) {
                 Feed(
+                    currentUser = pref.getCurrentUser(),
                     posts = viewModel.readAllPosts(context)
                 )
             }
@@ -137,7 +142,7 @@ private fun HomeScreenPreview() {
                 .fillMaxSize(),
             color = MaterialTheme.colorScheme.background
         ) {
-            HomeScreen()
+            HomeScreen(pref = SharedPreferencesManager(LocalContext.current))
         }
     }
 }

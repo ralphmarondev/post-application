@@ -4,12 +4,14 @@ import android.content.ContentValues
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
-import com.maronworks.postapplication.core.model.dbconfig.DBConfig
 import com.maronworks.postapplication.home.core.domain.post.PostModel
 
 class DBHandler(context: Context) :
-    SQLiteOpenHelper(context, "posts_db2", null, 4) {
+    SQLiteOpenHelper(context, DB_NAME, null, DB_VERSION) {
     companion object {
+        private const val DB_NAME = "posts_database"
+        private const val DB_VERSION = 5
+
         private const val TABLE_POST = "posts"
         private const val COL_POST_ID = "post_id"
         private const val COL_USERNAME = "username"

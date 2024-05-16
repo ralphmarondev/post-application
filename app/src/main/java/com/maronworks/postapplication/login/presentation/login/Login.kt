@@ -1,6 +1,7 @@
 package com.maronworks.postapplication.login.presentation.login
 
 import android.content.Context
+import android.util.Log
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -14,6 +15,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.maronworks.postapplication.core.data.preferences.SharedPreferencesManager
 import com.maronworks.postapplication.login.LoginViewModel
 import com.maronworks.postapplication.login.model.user.UserModel
 import com.maronworks.postapplication.login.presentation.components.NormalTextField
@@ -30,6 +32,7 @@ fun Login(
     scope: CoroutineScope,
     viewModel: LoginViewModel,
     snackBarState: SnackbarHostState,
+    pref: SharedPreferencesManager,
     onLogin: () -> Unit
 ) {
     var username by remember { mutableStateOf("") }
@@ -94,6 +97,10 @@ fun Login(
                 } else {
                     if (viewModel.isUserExists(context, user = UserModel(username, password))) {
                         onLogin()
+
+                        // save current user
+                        Log.d("pref", "Setting [$username] as the current user.")
+                        pref.setCurrentUser(username)
 //                        snackBarMsg = "Login successful!"
                     } else {
                         snackBarMsg = "Incorrect Password. Please try again."

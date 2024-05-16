@@ -9,7 +9,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.maronworks.postapplication.home.HomeScreen
 import com.maronworks.postapplication.login.LoginScreen
-import com.maronworks.postapplication.navigation.data.local.preferences.SharedPreferencesManager
+import com.maronworks.postapplication.core.data.preferences.SharedPreferencesManager
 import com.maronworks.postapplication.navigation.model.Screen
 import com.maronworks.postapplication.onboarding.OnBoardingScreen
 
@@ -41,11 +41,14 @@ fun AppNavigation(
                 onLogin = {
                     navController.popBackStack()
                     navController.navigate(Screen.Home.route)
-                }
+                },
+                pref = pref
             )
         }
         composable(Screen.Home.route) {
-            HomeScreen()
+            HomeScreen(
+                pref = pref
+            )
         }
     }
 }

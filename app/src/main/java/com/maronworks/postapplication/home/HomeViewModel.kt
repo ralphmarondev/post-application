@@ -8,9 +8,9 @@ import androidx.lifecycle.ViewModel
 import com.maronworks.postapplication.R
 import com.maronworks.postapplication.home.core.db.DBHandler
 import com.maronworks.postapplication.home.core.domain.post.PostModel
+import com.maronworks.postapplication.core.data.preferences.SharedPreferencesManager
 
-class HomeViewModel : ViewModel() {
-    var currentUser = mutableStateOf("")
+class HomeViewModel(private val pref: SharedPreferencesManager) : ViewModel() {
     var currentUserImage = mutableIntStateOf(R.drawable.cute_me)
     var currentDate = mutableStateOf("2024-05-12 | 7:51PM")
 
@@ -19,7 +19,7 @@ class HomeViewModel : ViewModel() {
 
         db.createPost(
             post = PostModel(
-                username = currentUser.value,
+                username = pref.getCurrentUser(),
                 userImage = currentUserImage.intValue,
                 postContent = postContent,
                 dateAdded = currentDate.value

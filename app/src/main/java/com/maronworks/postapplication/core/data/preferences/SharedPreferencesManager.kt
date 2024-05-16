@@ -1,10 +1,11 @@
-package com.maronworks.postapplication.navigation.data.local.preferences
+package com.maronworks.postapplication.core.data.preferences
 
 import android.content.Context
 
 class SharedPreferencesManager(private val context: Context) {
     companion object {
         const val PREF_KEY_ONBOARDING_COMPLETED = "onboarding_completed"
+        const val CURRENT_USER = "current_user"
     }
 
     private val sharedPreferences by lazy {
@@ -23,5 +24,15 @@ class SharedPreferencesManager(private val context: Context) {
             PREF_KEY_ONBOARDING_COMPLETED,
             true
         ).apply()
+    }
+
+    // current user logged in
+    fun setCurrentUser(username: String) {
+        sharedPreferences.edit().putString(CURRENT_USER, username).apply()
+    }
+
+    fun getCurrentUser(): String {
+        val currentUser = sharedPreferences.getString(CURRENT_USER, "root")
+        return currentUser!!
     }
 }

@@ -37,7 +37,8 @@ import com.maronworks.postapplication.home.feed.components.PostCard
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun Feed(
-    posts: MutableList<PostModel>
+    posts: MutableList<PostModel>,
+    currentUser: String
 ) {
     var showBottomSheet by remember { mutableStateOf(false) }
 
@@ -126,6 +127,14 @@ fun Feed(
                             .fillMaxWidth()
                             .padding(5.dp)
                     )
+
+                    Text(
+                        text = "Current user: $currentUser",
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(5.dp)
+                    )
+
                     repeat(2) {
                         ElevatedCard(
                             onClick = { /*TODO*/ },

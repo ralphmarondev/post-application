@@ -41,12 +41,14 @@ import androidx.compose.ui.unit.sp
 import com.maronworks.postapplication.login.presentation.login.Login
 import com.maronworks.postapplication.login.presentation.register.Register
 import com.maronworks.postapplication.login.util.TabIndex
+import com.maronworks.postapplication.core.data.preferences.SharedPreferencesManager
 import com.maronworks.postapplication.ui.theme.PostApplicationTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun LoginScreen(
+    pref: SharedPreferencesManager,
     onLogin: () -> Unit
 ) {
     var isDarkTheme by remember {
@@ -132,7 +134,8 @@ fun LoginScreen(
                             scope = scope,
                             viewModel = viewModel,
                             snackBarState = snackBarState,
-                            onLogin = { onLogin() }
+                            onLogin = { onLogin() },
+                            pref = pref
                         )
                     }
 
@@ -164,7 +167,7 @@ private fun LoginScreenPreview() {
                 .fillMaxSize(),
             color = MaterialTheme.colorScheme.background
         ) {
-            LoginScreen(onLogin = {})
+            LoginScreen(onLogin = {}, pref = SharedPreferencesManager(LocalContext.current))
         }
     }
 }

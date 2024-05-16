@@ -4,16 +4,18 @@ import android.content.ContentValues
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
-import com.maronworks.postapplication.core.model.dbconfig.DBConfig
 import com.maronworks.postapplication.login.model.user.UserModel
 
 class DBHandler(private val context: Context) :
-    SQLiteOpenHelper(context, DBConfig.DB_NAME, null, DBConfig.DB_VERSION) {
+    SQLiteOpenHelper(context, DB_NAME, null, DB_VERSION) {
 
     companion object {
-        const val TABLE_USER = "users"
-        const val COL_USERNAME = "username"
-        const val COL_PASSWORD = "password"
+        private const val DB_NAME = "users_database"
+        private const val DB_VERSION = 5
+
+        private const val TABLE_USER = "users"
+        private const val COL_USERNAME = "username"
+        private const val COL_PASSWORD = "password"
     }
 
     override fun onCreate(db: SQLiteDatabase?) {
